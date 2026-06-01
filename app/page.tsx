@@ -1,6 +1,8 @@
 
-// import Hero from "@/components/Hero";
 
+
+import Features from "./components/Features";
+import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 
 export default function Home() {
@@ -10,7 +12,8 @@ export default function Home() {
       <Navbar/>
       
       {/* ২. হিরো সেকশন */}
-      {/* <Hero /> */}
+      <Hero />
+      <Features/>
     </main>
   );
 }
