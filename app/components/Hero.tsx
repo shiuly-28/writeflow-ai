@@ -13,7 +13,7 @@ export default function Hero() {
 
       <div className="mx-auto max-w-4xl text-center">
         {/* অ্যানিমেটেড ব্যাজ */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium text-indigo-300 backdrop-blur-md mb-6">
+        <div className="inline-flex mt-5 items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-1.5 text-xs font-medium text-indigo-300 backdrop-blur-md mb-6">
           <span className="flex h-2 w-2 rounded-full bg-indigo-400 animate-ping" />
           Next-Gen Agentic AI Content Workspace
         </div>
