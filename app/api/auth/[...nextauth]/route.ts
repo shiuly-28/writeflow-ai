@@ -1,12 +1,10 @@
-import  clientPromise  from '@/lib/mongodb';
+import clientPromise from '@/lib/mongodb';
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
-
 import bcrypt from "bcryptjs";
 
 const handler = NextAuth({
-  adapter: MongoDBAdapter(clientPromise),
+  // 💡 অ্যাডাপ্টার বাদ দেওয়া হয়েছে কারণ আমরা JWT স্ট্র্যাটেজি এবং ক্রেডেনশিয়াল ব্যবহার করছি
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -16,7 +14,7 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("ইমেইল এবং পাসওয়ার্ড দুটিই প্রয়োজন।");
+          throw new Error("ইমেইল এবং পাসওয়ার্ড দুটিই প্রয়োজন।");
         }
 
         const client = await clientPromise;
@@ -26,14 +24,14 @@ const handler = NextAuth({
         const user = await db.collection("users").findOne({ email: credentials.email });
 
         if (!user || !user.password) {
-          throw new Error("এই ইমেইল দিয়ে কোনো ইউজার পাওয়া যায়নি।");
+          throw new Error("এই ইমেইল দিয়ে কোনো ইউজার পাওয়া যায়নি।");
         }
 
-        // পাসওয়ার্ড ম্যাচ করা
+        // পাসওয়ার্ড ম্যাচ করা
         const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
 
         if (!isPasswordCorrect) {
-          throw new Error("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
+          throw new Error("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
         }
 
         // সেশনের জন্য ইউজার অবজেক্ট রিটার্ন করা
@@ -55,7 +53,3 @@ const handler = NextAuth({
 });
 
 export { handler as GET, handler as POST };
-
-
-
-// password: 3rRCoTVzP28pOlcs

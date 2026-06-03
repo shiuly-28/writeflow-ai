@@ -56,7 +56,7 @@ export default function Navbar() {
               Log In
             </Link>
             <Link href="/register" className="rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-2 text-sm font-medium text-white shadow-lg hover:opacity-90 transition-all duration-200">
-              Get Started
+              Register
             </Link>
           </div>
 
@@ -90,7 +90,7 @@ export default function Navbar() {
               Log In
             </Link>
             <Link href="/register" onClick={() => setIsOpen(false)} className="text-center rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 py-2 font-medium text-white">
-              Get Started
+             Register
             </Link>
           </div>
         </div>
