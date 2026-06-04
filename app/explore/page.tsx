@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Sparkles, Search, Code, PenTool, MessageSquare, Zap, ArrowRight, Grid } from 'lucide-react';
+import { Sparkles, Search, Code, PenTool, MessageSquare, Zap, ArrowRight, Grid, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 const categories = [
   { id: 'all', name: 'All Tools', icon: Grid },
@@ -78,6 +79,17 @@ const ExplorePage = () => {
       {/* গ্লোয়িং গ্লাস ব্যাকগ্রাউন্ড ইফেক্ট */}
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
+
+         
+        {/* Back Button */}
+        <div className="p-6 pb-0">
+          <Link
+            href="/" 
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors tracking-widest uppercase"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back
+          </Link>
+        </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
         

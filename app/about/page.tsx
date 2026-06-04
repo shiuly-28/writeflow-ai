@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Sparkles, Users, Eye, Target, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Sparkles, Users, Eye, Target, ShieldCheck, ArrowRight, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 const values = [
@@ -35,6 +35,16 @@ const AboutPage = () => {
       <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
 
+       
+        {/* Back Button */}
+        <div className="p-6 pb-0">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors tracking-widest uppercase"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back
+          </Link>
+        </div>
       <div className="max-w-5xl mx-auto relative z-10">
         
         {/* হেডার সেকশন */}

@@ -1,52 +1,41 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import { NextResponse } from "next/server";
 import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    CredentialsProvider({
-      name: "credentials",
-      credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("ইমেইল এবং পাসওয়ার্ড দুটিই প্রয়োজন।");
-        }
+export async function POST(request: Request) {
+  try {
+    const { name, email, password } = await request.json();
 
-        const client = await clientPromise;
-        const db = client.db();
+    if (!name || !email || !password) {
+      return NextResponse.json({ message: "সবগুলো ফিল্ড পূরণ করুন।" }, { status: 400 });
+    }
 
-        // ১. ইমেইল দিয়ে ইউজার খুঁজুন
-        const user = await db.collection("users").findOne({ email: credentials.email });
+    if (password.length < 6) {
+      return NextResponse.json({ message: "পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে।" }, { status: 400 });
+    }
 
-        if (!user) {
-          throw new Error("এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট খুঁজে পাওয়া যায়নি।");
-        }
+    const client = await clientPromise;
+    const db = client.db(); // আপনার MONGODB_URI তে থাকা ডিফল্ট DB কানেক্ট হবে
 
-        // ২. পাসওয়ার্ড ম্যাচ করুন (Bcrypt দিয়ে)
-        const passwordMatch = await bcrypt.compare(credentials.password, user.password);
+    // ইউজার অলরেডি আছে কি না চেক করুন
+    const existingUser = await db.collection("users").findOne({ email });
+    if (existingUser) {
+      return NextResponse.json({ message: "এই ইমেইলটি দিয়ে অলরেডি অ্যাকাউন্ট খোলা আছে।" }, { status: 400 });
+    }
 
-        if (!passwordMatch) {
-          throw new Error("পাসওয়ার্ড সঠিক নয়।");
-        }
+    // পাসওয়ার্ড হ্যাশ করা
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-        // ৩. সবকিছু ঠিক থাকলে ইউজার অবজেক্ট রিটার্ন করুন (যা সেশনে সেভ হবে)
-        return {
-          id: user._id.toString(),
-          name: user.name,
-          email: user.email,
-        };
-      },
-    }),
-  ],
-  session: {
-    strategy: "jwt", // আমরা টোকেন বেসড সেশন ব্যবহার করছি
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login", // আমাদের কাস্টম লগইন পেজের পাথ
-  },
-};
+    // নতুন ইউজার ডাটাবেজে ইনসার্ট করা
+    const newUser = await db.collection("users").insertOne({
+      name,
+      email,
+      password: hashedPassword,
+      createdAt: new Date(),
+    });
+
+    return NextResponse.json({ message: "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" }, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json({ message: error.message || "Internal Server Error" }, { status: 500 });
+  }
+}

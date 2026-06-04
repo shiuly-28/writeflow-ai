@@ -1,6 +1,6 @@
+"use client";
 
-
-
+import { useState } from "react";
 import FAQ from "./components/FAQ";
 import Features from "./components/Features";
 import Footer from "./components/Footer";
@@ -12,20 +12,27 @@ import Pricing from "./components/Pricing";
 import StatsAndReviews from "./components/StatsAndReviews";
 
 export default function Home() {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
   return (
-    <main className="min-h-screen bg-slate-950">
-      {/* ১. নেভবার */}
-      <Navbar/>
+    // 💡 পুরো প্রজেক্টের ব্যাকগ্রাউন্ড এখানে কন্ট্রোল হচ্ছে
+    <main className={`min-h-screen transition-colors duration-300 ${
+      isDarkMode ? "bg-slate-950 text-white" : "bg-slate-50 text-slate-900"
+    }`}>
       
-      {/* ২. হিরো সেকশন */}
-      <Hero />
-      <Features/>
-      <HowItWorks/>
-      <PopularTemplates/>
-      <Pricing/>
-      <StatsAndReviews/>
-      <FAQ/>
-      <Footer/>
+      {/* নেবারে স্টেট এবং সেট-স্টেট ফাংশন পাস করা হলো */}
+      <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
+      
+      {/* হিরো সেকশনেও স্টেট পাস করা হলো */}
+      <Hero isDarkMode={isDarkMode} />
+      
+      <Features isDarkMode={isDarkMode} />
+      <HowItWorks isDarkMode={isDarkMode}/>
+      <PopularTemplates isDarkMode={isDarkMode}/>
+      <Pricing isDarkMode={isDarkMode}/>
+      <StatsAndReviews isDarkMode={isDarkMode}/>
+      <FAQ isDarkMode={isDarkMode}/>
+      <Footer isDarkMode={isDarkMode}/>
     </main>
   );
 }

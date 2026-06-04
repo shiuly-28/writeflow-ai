@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Sparkles, Calendar, User, ArrowRight, BookOpen } from 'lucide-react';
+import { Sparkles, Calendar, User, ArrowRight, BookOpen, ArrowLeft } from 'lucide-react';
 
 // স্যাম্পল ব্লগ ডেটা (পরবর্তীতে ডাটাবেজ থেকে আনলে এটা ডাইনামিক করা যাবে)
 const blogPosts = [
@@ -39,6 +39,17 @@ const BlogPage = () => {
       {/* ব্যাকগ্রাউন্ডের চমৎকার গ্লোয়িং ইফেক্ট */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+
+       
+        {/* Back Button */}
+        <div className="p-6 pb-0">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors tracking-widest uppercase"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back
+          </Link>
+        </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
         
