@@ -1,41 +1,78 @@
-import { NextResponse } from "next/server";
+// src/lib/auth.ts
+import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 
-export async function POST(request: Request) {
-  try {
-    const { name, email, password } = await request.json();
+export const authOptions: NextAuthOptions = {
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    CredentialsProvider({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) return null;
 
-    if (!name || !email || !password) {
-      return NextResponse.json({ message: "সবগুলো ফিল্ড পূরণ করুন।" }, { status: 400 });
-    }
+        try {
+          const client = await clientPromise;
+          const db = client.db();
 
-    if (password.length < 6) {
-      return NextResponse.json({ message: "পাসওয়ার্ড অন্তত ৬ অক্ষরের হতে হবে।" }, { status: 400 });
-    }
+          // 💡 ডাটাবেজে যেভাবে ইমেইল আছে (বড়/ছোট হাত) হুবহু সেভাবে খোঁজার জন্য regex ব্যবহার করা হলো
+          const user = await db
+            .collection("users")
+            .findOne({ email: { $regex: new RegExp(`^${credentials.email}$`, "i") } });
 
-    const client = await clientPromise;
-    const db = client.db(); // আপনার MONGODB_URI তে থাকা ডিফল্ট DB কানেক্ট হবে
+          if (!user) {
+            console.log("User not found in DB");
+            return null;
+          }
 
-    // ইউজার অলরেডি আছে কি না চেক করুন
-    const existingUser = await db.collection("users").findOne({ email });
-    if (existingUser) {
-      return NextResponse.json({ message: "এই ইমেইলটি দিয়ে অলরেডি অ্যাকাউন্ট খোলা আছে।" }, { status: 400 });
-    }
+          // পাসওয়ার্ড ভ্যালিডেশন
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
 
-    // পাসওয়ার্ড হ্যাশ করা
-    const hashedPassword = await bcrypt.hash(password, 10);
+          if (!isPasswordValid) {
+            console.log("Invalid password");
+            return null;
+          }
 
-    // নতুন ইউজার ডাটাবেজে ইনসার্ট করা
-    const newUser = await db.collection("users").insertOne({
-      name,
-      email,
-      password: hashedPassword,
-      createdAt: new Date(),
-    });
-
-    return NextResponse.json({ message: "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!" }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ message: error.message || "Internal Server Error" }, { status: 500 });
-  }
-}
+          // সাকসেসফুলি ইউজার অবজেক্ট রিটার্ন
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            role: user.role || "user",
+          };
+        } catch (error) {
+          console.error("Auth authorize error:", error);
+          return null;
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.role = (user as any).role || "user";
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        (session.user as any).role = token.role;
+      }
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/login",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+};

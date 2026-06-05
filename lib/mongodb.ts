@@ -1,28 +1,19 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
-
-if (!uri) {
-  throw new Error("MONGODB_URI .env.local ফাইলে নেই!");
+declare global {
+  var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-const options = {
-  tls: true,
-  serverSelectionTimeoutMS: 5000,
-};
-
-let client;
-let clientPromise;
+const uri = process.env.MONGODB_URI as string;
+let clientPromise: Promise<MongoClient>;
 
 if (process.env.NODE_ENV === "development") {
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
-    global._mongoClientPromise = client.connect();
+    global._mongoClientPromise = new MongoClient(uri).connect();
   }
-  clientPromise = global._mongoClientPromise;
+  clientPromise = global._mongoClientPromise!;
 } else {
-  client = new MongoClient(uri, options);
-  clientPromise = client.connect();
+  clientPromise = new MongoClient(uri).connect();
 }
 
 export default clientPromise;

@@ -19,22 +19,28 @@ export default function RegisterPage() {
     setError("");
 
     try {
+      console.log(name, email, password )
       const res = await fetch("/api/register", {
+
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
+
       });
 
-      const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "কিছু একটা সমস্যা হয়েছে।");
-      }
+      const data = await res.json();
+      console.log(data)
+
+      // if (!res.ok) {
+      //   throw new Error(data.message || "কিছু একটা সমস্যা হয়েছে।");
+      // }
 
       // অ্যাকাউন্ট তৈরি সফল হলে লগইন পেজে রিডাইরেক্ট করবে
       router.push("/login?success=Account created successfully!");
     } catch (err: any) {
       setError(err.message);
+      console.log(err)
     } finally {
       setLoading(false);
     }

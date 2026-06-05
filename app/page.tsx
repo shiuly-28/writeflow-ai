@@ -15,7 +15,6 @@ export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   return (
-    // 💡 পুরো প্রজেক্টের ব্যাকগ্রাউন্ড এখানে কন্ট্রোল হচ্ছে
     <main className={`min-h-screen transition-colors duration-300 ${
       isDarkMode ? "bg-slate-950 text-white" : "bg-slate-50 text-slate-900"
     }`}>
@@ -23,9 +22,8 @@ export default function Home() {
       {/* নেবারে স্টেট এবং সেট-স্টেট ফাংশন পাস করা হলো */}
       <Navbar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
       
-      {/* হিরো সেকশনেও স্টেট পাস করা হলো */}
+      {/* বাকি সব সেকশন */}
       <Hero isDarkMode={isDarkMode} />
-      
       <Features isDarkMode={isDarkMode} />
       <HowItWorks isDarkMode={isDarkMode}/>
       <PopularTemplates isDarkMode={isDarkMode}/>

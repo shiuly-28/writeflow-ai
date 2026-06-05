@@ -19,56 +19,27 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        // ডেমো অ্যাডমিন লগইন
-        if (
-          credentials.email === "admin@writeflow.com" &&
-          credentials.password === "123456"
-        ) {
-          return {
-            id: "demo-admin",
-            name: "Demo Admin",
-            email: "admin@writeflow.com",
-            role: "admin",
-          };
+        const inputEmail = credentials.email.toLowerCase();
+
+        if (inputEmail === "admin@writeflow.com" && credentials.password === "123456") {
+          return { id: "demo-admin", name: "Demo Admin", email: "admin@writeflow.com", role: "admin" } as any;
         }
 
-        // ডেমো ইউজার লগইন
-        if (
-          credentials.email === "user@writeflow.com" &&
-          credentials.password === "123456"
-        ) {
-          return {
-            id: "demo-user",
-            name: "Demo User",
-            email: "user@writeflow.com",
-            role: "user",
-          };
+        if (inputEmail === "user@writeflow.com" && credentials.password === "123456") {
+          return { id: "demo-user", name: "Demo User", email: "user@writeflow.com", role: "user" } as any;
         }
 
-        // MongoDB থেকে real user চেক করো
         try {
           const client = await clientPromise;
           const db = client.db();
-
-          const user = await db
-            .collection("users")
-            .findOne({ email: credentials.email });
+          const user = await db.collection("users").findOne({ email: inputEmail });
 
           if (!user) return null;
 
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          if (!isValid) return null;
 
-          if (!isPasswordValid) return null;
-
-          return {
-            id: user._id.toString(),
-            name: user.name,
-            email: user.email,
-            role: user.role || "user",
-          };
+          return { id: user._id.toString(), name: user.name, email: user.email, role: user.role || "user" } as any;
         } catch (error) {
           console.error("Auth error:", error);
           return null;
@@ -82,13 +53,11 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      (session.user as any).role = token.role;
+      if (session.user) (session.user as any).role = token.role;
       return session;
     },
   },
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
   secret: process.env.NEXTAUTH_SECRET,
 };
 
