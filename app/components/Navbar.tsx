@@ -24,8 +24,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
 
   // ইউজার রোল অনুযায়ী ড্যাশবোর্ড রুট ফিক্স করা
 const userRole = (session?.user as any)?.role;
-const dashboardHref = userRole === "admin" ? "/dashboard/admin" : "/dashboard/user";
-
+const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
   const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
     { name: "Explore", href: "/explore" },
