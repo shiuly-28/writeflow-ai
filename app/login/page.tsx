@@ -34,12 +34,14 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-        setError("ভুল ইমেইল অথবা পাসওয়ার্ড! আবার চেষ্টা করুন।");
-      } else {
-        // সাকসেসফুল লগইন হলে ড্যাশবোর্ডে নিয়ে যাবে
-        router.push("/");
-        router.refresh();
-      }
+  setError("ভুল ইমেইল অথবা পাসওয়ার্ড! আবার চেষ্টা করুন।");
+} else {
+  // role অনুযায়ী redirect
+  const session = await fetch("/api/auth/session").then((r) => r.json());
+  const role = session?.user?.role;
+  router.push(role === "admin" ? "/admin" : "/dashboard");
+  router.refresh();
+}
     } catch (err) {
       setError("অনাকাঙ্ক্ষিত কোনো সমস্যা ঘটেছে।");
     } finally {

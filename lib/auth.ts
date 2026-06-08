@@ -1,9 +1,9 @@
-// src/lib/auth.ts
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
-import clientPromise from "@/lib/mongodb";
+import { connectDB } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
+import User from "@/app/model/User";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -19,41 +19,24 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+        const inputEmail = credentials.email.toLowerCase();
+
+        if (inputEmail === "admin@writeflow.com" && credentials.password === "123456") {
+          return { id: "demo-admin", name: "Demo Admin", email: "admin@writeflow.com", role: "admin" } as any;
+        }
+        if (inputEmail === "user@writeflow.com" && credentials.password === "123456") {
+          return { id: "demo-user", name: "Demo User", email: "user@writeflow.com", role: "user" } as any;
+        }
 
         try {
-          const client = await clientPromise;
-          const db = client.db();
-
-          // 💡 ডাটাবেজে যেভাবে ইমেইল আছে (বড়/ছোট হাত) হুবহু সেভাবে খোঁজার জন্য regex ব্যবহার করা হলো
-          const user = await db
-            .collection("users")
-            .findOne({ email: { $regex: new RegExp(`^${credentials.email}$`, "i") } });
-
-          if (!user) {
-            console.log("User not found in DB");
-            return null;
-          }
-
-          // পাসওয়ার্ড ভ্যালিডেশন
-          const isPasswordValid = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
-          if (!isPasswordValid) {
-            console.log("Invalid password");
-            return null;
-          }
-
-          // সাকসেসফুলি ইউজার অবজেক্ট রিটার্ন
-          return {
-            id: user._id.toString(),
-            name: user.name,
-            email: user.email,
-            role: user.role || "user",
-          };
+          await connectDB();
+          const user = await User.findOne({ email: inputEmail });
+          if (!user) return null;
+          const isValid = await bcrypt.compare(credentials.password, user.password);
+          if (!isValid) return null;
+          return { id: user._id.toString(), name: user.name, email: user.email, role: user.role || "user" } as any;
         } catch (error) {
-          console.error("Auth authorize error:", error);
+          console.error("Auth error:", error);
           return null;
         }
       },
@@ -65,14 +48,10 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        (session.user as any).role = token.role;
-      }
+      if (session.user) (session.user as any).role = token.role;
       return session;
     },
   },
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
   secret: process.env.NEXTAUTH_SECRET,
 };

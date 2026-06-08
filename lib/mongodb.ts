@@ -1,19 +1,20 @@
-import { MongoClient } from "mongodb";
+import mongoose from "mongoose";
 
 declare global {
-  var _mongoClientPromise: Promise<MongoClient> | undefined;
+  var _mongoose: { conn: any; promise: any } | undefined;
 }
 
 const uri = process.env.MONGODB_URI as string;
-let clientPromise: Promise<MongoClient>;
+if (!uri) throw new Error("MONGODB_URI নেই!");
 
-if (process.env.NODE_ENV === "development") {
-  if (!global._mongoClientPromise) {
-    global._mongoClientPromise = new MongoClient(uri).connect();
+const cached = global._mongoose || { conn: null, promise: null };
+global._mongoose = cached;
+
+export async function connectDB() {
+  if (cached.conn) return cached.conn;
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(uri, { dbName: "writeflow-ai" });
   }
-  clientPromise = global._mongoClientPromise!;
-} else {
-  clientPromise = new MongoClient(uri).connect();
+  cached.conn = await cached.promise;
+  return cached.conn;
 }
-
-export default clientPromise;
