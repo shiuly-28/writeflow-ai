@@ -23,7 +23,7 @@ export default function AdminUsersPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-black text-gray-900 uppercase tracking-tight">
-            Manage <span className="text-indigo-600">Users</span>
+            Manage <span className="text-amber-600">Users</span>
           </h1>
           <p className="text-gray-400 text-xs mt-0.5">সব ইউজার ম্যানেজ করো।</p>
         </div>
@@ -37,7 +37,7 @@ export default function AdminUsersPage() {
           placeholder="নাম বা ইমেইল খোঁজো..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500"
+          className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-amber-600"
         />
       </div>
 
@@ -60,7 +60,7 @@ export default function AdminUsersPage() {
               <tr key={user.id} className="border-b border-gray-50 hover:bg-gray-50 transition-all">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-600 to-amber-500 flex items-center justify-center text-white text-xs font-bold">
                       {user.name[0]}
                     </div>
                     <span className="text-sm font-semibold text-gray-900">{user.name}</span>
@@ -71,7 +71,7 @@ export default function AdminUsersPage() {
                   <span className={`px-2 py-1 rounded-lg text-xs font-bold ${
                     user.role === "admin"
                       ? "bg-amber-100 text-amber-700"
-                      : "bg-indigo-100 text-indigo-700"
+                      : "bg-amber-200 text-amber-600"
                   }`}>
                     {user.role}
                   </span>
@@ -93,8 +93,8 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
-                    <button className="p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 transition-all" title="Change Role">
-                      <Shield className="h-3.5 w-3.5 text-indigo-600" />
+                    <button className="p-1.5 rounded-lg bg-amber-60 hover:bg-amber-600 transition-all" title="Change Role">
+                      <Shield className="h-3.5 w-3.5 text-amber-600" />
                     </button>
                     <button className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition-all" title="Ban User">
                       <Ban className="h-3.5 w-3.5 text-rose-500" />

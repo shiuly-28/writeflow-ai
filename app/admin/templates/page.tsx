@@ -59,13 +59,13 @@ export default function AdminTemplatesPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-black text-gray-900 uppercase tracking-tight">
-            Manage <span className="text-indigo-600">Templates</span>
+            Manage <span className="text-amber-600">Templates</span>
           </h1>
           <p className="text-gray-400 text-xs mt-0.5">Template তৈরি, সম্পাদনা ও মুছে ফেলো।</p>
         </div>
         <button
           onClick={() => { setEditTemplate(null); setForm({ title: "", category: "Blog", description: "", tone: "Professional" }); setShowModal(true); }}
-          className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-amber-600 text-white text-sm font-semibold rounded-xl hover:bg-amber-700 transition-all"
         >
           <Plus className="h-4 w-4" />
           New Template
@@ -80,7 +80,7 @@ export default function AdminTemplatesPage() {
           placeholder="Template খোঁজো..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500"
+          className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
         />
       </div>
 
@@ -104,7 +104,7 @@ export default function AdminTemplatesPage() {
                   <p className="text-xs text-gray-400 mt-0.5">{t.description}</p>
                 </td>
                 <td className="px-6 py-4">
-                  <span className="px-2 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg">{t.category}</span>
+                  <span className="px-2 py-1 bg-amber-50 text-amber-700 text-xs font-bold rounded-lg">{t.category}</span>
                 </td>
                 <td className="px-6 py-4 text-sm text-gray-500">{t.tone}</td>
                 <td className="px-6 py-4">
@@ -116,8 +116,8 @@ export default function AdminTemplatesPage() {
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-2">
-                    <button onClick={() => handleEdit(t)} className="p-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 transition-all">
-                      <Pencil className="h-3.5 w-3.5 text-indigo-600" />
+                    <button onClick={() => handleEdit(t)} className="p-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 transition-all">
+                      <Pencil className="h-3.5 w-3.5 text-amber-600" />
                     </button>
                     <button onClick={() => handleDelete(t.id)} className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 transition-all">
                       <Trash2 className="h-3.5 w-3.5 text-rose-500" />
@@ -150,7 +150,7 @@ export default function AdminTemplatesPage() {
                   type="text"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
                   placeholder="Template title"
                 />
               </div>
@@ -159,7 +159,7 @@ export default function AdminTemplatesPage() {
                 <select
                   value={form.category}
                   onChange={(e) => setForm({ ...form, category: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
                 >
                   {["Blog", "Social Media", "Email", "Ad Copy"].map((c) => (
                     <option key={c}>{c}</option>
@@ -171,7 +171,7 @@ export default function AdminTemplatesPage() {
                 <select
                   value={form.tone}
                   onChange={(e) => setForm({ ...form, tone: e.target.value })}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500"
                 >
                   {["Professional", "Casual", "Friendly", "Persuasive", "Formal"].map((t) => (
                     <option key={t}>{t}</option>
@@ -184,13 +184,13 @@ export default function AdminTemplatesPage() {
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   rows={3}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-500 resize-none"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 resize-none"
                   placeholder="Template description"
                 />
               </div>
               <button
                 onClick={handleSubmit}
-                className="w-full py-2.5 bg-indigo-600 text-white text-sm font-semibold rounded-xl hover:bg-indigo-700 transition-all"
+                className="w-full py-2.5 bg-amber-600 text-white text-sm font-semibold rounded-xl hover:bg-amber-700 transition-all"
               >
                 {editTemplate ? "Update Template" : "Create Template"}
               </button>

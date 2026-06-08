@@ -52,7 +52,7 @@ export default function AdminReviewsPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-black text-gray-900 uppercase tracking-tight">
-            Manage <span className="text-indigo-600">Reviews</span>
+            Manage <span className="text-amber-600">Reviews</span>
           </h1>
           <p className="text-gray-400 text-xs mt-0.5">সব review দেখো এবং approve/reject করো।</p>
         </div>
@@ -85,7 +85,7 @@ export default function AdminReviewsPage() {
             key={f}
             onClick={() => setFilter(f)}
             className={`px-3 py-1.5 rounded-xl text-xs font-semibold capitalize transition-all ${
-              filter === f ? "bg-indigo-600 text-white" : "bg-white border border-gray-200 text-gray-500 hover:text-gray-700"
+              filter === f ? "bg-amber-600 text-white" : "bg-white border border-gray-200 text-gray-500 hover:text-gray-700"
             }`}
           >
             {f}
@@ -99,7 +99,7 @@ export default function AdminReviewsPage() {
           <div key={review.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-500 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                   {review.user[0]}
                 </div>
                 <div>
