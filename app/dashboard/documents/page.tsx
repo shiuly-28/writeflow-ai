@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { FileText, Search, Plus, Filter } from "lucide-react";
+import Link from "next/link";
 
 const mockDocuments = [
   { id: 1, title: "Blog Post: AI in 2025", status: "published", words: 850, date: "2025-01-10" },
@@ -33,10 +34,13 @@ export default function DocumentsPage() {
           <h1 className="text-2xl font-bold text-slate-900">My Documents</h1>
           <p className="text-slate-600 text-sm mt-1">তোমার সব ড্রাফট ও পাবলিশড কন্টেন্ট।</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all transform active:scale-95">
-          <Plus className="h-4 w-4" />
-          New Document
-        </button>
+       <Link
+  href="/dashboard/documents/new"
+  className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-medium rounded-xl hover:opacity-90 transition-all"
+>
+  <Plus className="h-4 w-4" />
+  New Document
+</Link>
       </div>
 
       {/* Search & Filter Section */}
