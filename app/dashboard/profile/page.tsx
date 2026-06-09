@@ -90,8 +90,8 @@ export default function ProfilePage() {
                 <input
                   type="email"
                   value={user?.email || ""}
-                  readOnly
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-500 cursor-not-allowed"
+               
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-500 "
                 />
               </div>
             </div>
