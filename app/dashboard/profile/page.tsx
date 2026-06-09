@@ -2,31 +2,60 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { User, Mail, FileText, Zap, Save } from "lucide-react";
+import { User, Mail, FileText, Zap, Save, Loader2 } from "lucide-react";
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const user = session?.user as any;
-
+  const [stats, setStats] = useState({ documents: 0, aiCalls: 0 });
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
-  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
-  // সেশন লোড হলে স্টেট আপডেট করার জন্য
   useEffect(() => {
-    if (user?.name) {
-      setName(user.name);
+  const fetchStats = async () => {
+    const res = await fetch("/api/profile/stats");
+    if (res.ok) {
+      const data = await res.json();
+      setStats(data);
     }
-  }, [user]);
+  };
+  fetchStats();
+}, []);
 
-  const handleSave = () => {
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const handleSave = async () => {
+    if (!name.trim()) {
+      setMessage({ type: "error", text: "নাম খালি রাখা যাবে না।" });
+      return;
+    }
+
+    setSaving(true);
+    setMessage(null);
+
+    try {
+      const res = await fetch("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, bio }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      await update({ name });
+      setMessage({ type: "success", text: "Profile সফলভাবে আপডেট হয়েছে!" });
+    } catch (err: any) {
+      setMessage({ type: "error", text: err.message || "কিছু একটা সমস্যা হয়েছে।" });
+    } finally {
+      setSaving(false);
+      setTimeout(() => setMessage(null), 3000);
+    }
   };
 
   return (
     <div className="bg-white min-h-screen text-slate-800 p-2">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-slate-900">My Profile</h1>
         <p className="text-slate-600 text-sm mt-1">তোমার প্রোফাইল ম্যানেজ করো।</p>
@@ -50,14 +79,15 @@ export default function ProfilePage() {
                 <FileText className="h-3.5 w-3.5 text-amber-600" />
                 <span className="text-slate-600 text-xs font-medium">Documents</span>
               </div>
-              <p className="text-slate-900 font-bold text-lg">0</p>
+              
+              <p className="text-slate-900 font-bold text-lg">{stats.documents}</p>
             </div>
             <div className="bg-amber-50/50 border border-amber-200 rounded-xl p-3">
               <div className="flex items-center gap-2 mb-1 justify-center">
                 <Zap className="h-3.5 w-3.5 text-amber-600" />
                 <span className="text-slate-600 text-xs font-medium">AI Calls</span>
               </div>
-              <p className="text-slate-900 font-bold text-lg">0</p>
+              <p className="text-slate-900 font-bold text-lg">{stats.aiCalls}</p>
             </div>
           </div>
         </div>
@@ -66,8 +96,17 @@ export default function ProfilePage() {
         <div className="lg:col-span-2 bg-white border-2 border-amber-500 rounded-2xl p-6 shadow-sm">
           <h3 className="text-slate-900 font-bold text-lg mb-6">Edit Profile</h3>
 
+          {message && (
+            <div className={`p-3 rounded-xl text-sm font-medium mb-4 ${
+              message.type === "success"
+                ? "bg-emerald-50 border border-emerald-200 text-emerald-700"
+                : "bg-rose-50 border border-rose-200 text-rose-700"
+            }`}>
+              {message.text}
+            </div>
+          )}
+
           <div className="space-y-5">
-            {/* Full Name Input */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-2">Full Name</label>
               <div className="relative">
@@ -82,7 +121,6 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            {/* Email Input (Read Only) */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-2">Email</label>
               <div className="relative">
@@ -90,13 +128,13 @@ export default function ProfilePage() {
                 <input
                   type="email"
                   value={user?.email || ""}
-               
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-500 "
+                  readOnly
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-500 cursor-not-allowed"
                 />
               </div>
+              <p className="text-xs text-slate-400 mt-1">Email পরিবর্তন করা যাবে না।</p>
             </div>
 
-            {/* Bio Input */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-2">Bio</label>
               <textarea
@@ -108,13 +146,22 @@ export default function ProfilePage() {
               />
             </div>
 
-            {/* Save Button */}
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-xl shadow-md hover:shadow-lg transition-all transform active:scale-95"
+              disabled={saving}
+              className="flex items-center gap-2 px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold rounded-xl shadow-md transition-all disabled:opacity-50"
             >
-              <Save className="h-4 w-4" />
-              {saved ? "Saved! ✓" : "Save Changes"}
+              {saving ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <Save className="h-4 w-4" />
+                  Save Changes
+                </>
+              )}
             </button>
           </div>
         </div>

@@ -8,6 +8,7 @@ import {
   LayoutDashboard, FileText, User, History,
   BarChart3, Users, BookOpen, Star, Settings,
   LogOut, Sparkles, ChevronLeft, Menu,
+  PenTool,
 } from "lucide-react";
 
 const userLinks = [
@@ -15,6 +16,7 @@ const userLinks = [
   { href: "/dashboard/documents", label: "My Documents", icon: FileText },
   { href: "/dashboard/profile", label: "My Profile", icon: User },
   { href: "/dashboard/usage", label: "AI Usage History", icon: History },
+  { href: "/dashboard/documents/rewrite", label: "Rewrite & Tone", icon: PenTool },
 ];
 
 const adminLinks = [
@@ -23,6 +25,7 @@ const adminLinks = [
   { href: "/admin/templates", label: "Templates", icon: BookOpen },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/settings", label: "Settings", icon: Settings },
+  
 ];
 
 export default function Sidebar({ role, user }: { role: string; user: any }) {
