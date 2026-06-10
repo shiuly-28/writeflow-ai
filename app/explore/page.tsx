@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Star, Filter, Zap, ArrowRight, FileText } from "lucide-react";
+import { Search, Star, Filter, Zap, ArrowRight, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 interface Template {
@@ -82,6 +82,12 @@ export default function ExplorePage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
       <div className="bg-gradient-to-br from-amber-600 to-amber-500 py-16 px-4">
+        <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors tracking-widest uppercase"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back
+          </Link>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-black text-white mb-4">
             Explore Templates
@@ -193,13 +199,14 @@ export default function ExplorePage() {
 
                   {/* Button */}
 
-                  <Link
-  href={`/templates/${template.id}`}
-  className="w-full flex items-center justify-center gap-2 py-2 bg-gray-50 border border-gray-200 text-gray-600 text-xs font-semibold rounded-xl hover:bg-gray-100 transition-all mb-2"
->
-  <FileText className="h-3.5 w-3.5" />
-  View Details
-</Link>
+                <div className="flex gap-3 ">
+                    <Link
+                  href={`/templates/${template.id}`}
+                   className="w-full flex items-center justify-center gap-2 py-2.5 bg-gray-50 border border-gray-200 text-gray-600 text-xs font-semibold rounded-xl hover:bg-gray-100 transition-all"
+                    >
+                  <FileText className="h-3.5 w-3.5" />
+                  View Details
+                </Link>
                   <Link
                     href={`/dashboard/documents/new?template=${template.id}&type=${encodeURIComponent(template.category)}&tone=${template.tone}`}
                     className="w-full flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 text-white text-xs font-semibold rounded-xl hover:opacity-90 transition-all"
@@ -207,6 +214,7 @@ export default function ExplorePage() {
                     Use Template
                     <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
+                </div>
                 </div>
               ))}
             </div>

@@ -122,13 +122,14 @@ const categoryColors: Record<string, string> = {
   "Ad Copy": "bg-amber-100 text-amber-700",
 };
 
-export default function TemplateDetailsPage({ params }: { params: { id: string } }) {
-  const template = templates.find((t) => t.id === parseInt(params.id));
+export default async function TemplateDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const template = templates.find((t) => t.id === parseInt(id));
   const related = templates.filter((t) => template?.relatedIds.includes(t.id));
 
   if (!template) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center ">
         <div className="text-center">
           <p className="text-gray-500 text-lg">Template পাওয়া যায়নি।</p>
           <Link href="/explore" className="text-amber-600 text-sm mt-2 hover:underline block">
@@ -146,9 +147,9 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-amber-600 to-cyan-500 py-12 px-4">
+      <div className="bg-gradient-to-br from-amber-600 to-amber-500 py-12 px-4">
         <div className="max-w-5xl mx-auto">
-          <Link href="/explore" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-6 transition-colors">
+          <Link href="/explore" className="inline-flex text-white items-center gap-2 text-white/70 hover:text-white text-sm mb-6 transition-colors">
             <ArrowLeft className="h-4 w-4" />
             Explore এ ফিরে যাও
           </Link>
@@ -243,7 +244,7 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
                   {template.reviews.map((review) => (
                     <div key={review.id} className="border-b border-gray-100 pb-4 last:border-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-500 flex items-center justify-center text-white text-xs font-bold">
                           {review.user[0]}
                         </div>
                         <div>
@@ -288,7 +289,7 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
 
               <Link
                 href={`/dashboard/documents/new?template=${template.id}&type=${encodeURIComponent(template.category)}&tone=${template.tone}`}
-                className="w-full flex items-center justify-center gap-2 py-3 mt-5 bg-gradient-to-r from-amber-600 to-cyan-500 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 mt-5 bg-gradient-to-r from-amber-600 to-amber-500 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-all"
               >
                 <Sparkles className="h-4 w-4" />
                 Use This Template

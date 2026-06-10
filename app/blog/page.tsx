@@ -1,127 +1,169 @@
-import React from 'react';
-import Link from 'next/link';
-import { Sparkles, Calendar, User, ArrowRight, BookOpen, ArrowLeft } from 'lucide-react';
+import { Clock, ArrowRight, Sparkles, ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
-// স্যাম্পল ব্লগ ডেটা (পরবর্তীতে ডাটাবেজ থেকে আনলে এটা ডাইনামিক করা যাবে)
-const blogPosts = [
+const posts = [
   {
     id: 1,
-    title: "AI দিয়ে কীভাবে প্রফেশনাল কন্টেন্ট রাইটিং করবেন?",
-    description: "বর্তমান যুগে কৃত্রিম বুদ্ধিমত্তা ব্যবহার করে লেখার মান উন্নত করার এবং কম সময়ে কন্টেন্ট তৈরি করার দারুণ কিছু সিক্রেট টেকনিক।",
-    author: "WriteFlow Team",
-    date: "June 03, 2026",
-    category: "AI Technology",
-    gradient: "from-indigo-500 to-purple-500"
+    title: "How AI is Revolutionizing Content Creation in 2025",
+    excerpt: "AI tools are transforming how we create content. From blog posts to social media, discover how WriteFlow AI is leading the charge.",
+    category: "AI & Technology",
+    readTime: "5 min read",
+    date: "June 10, 2025",
+    image: "🤖",
+    color: "from-amber-500 to-amber-500",
   },
   {
     id: 2,
-    title: "নেক্সট.জেএস (Next.js) প্রজেক্টে এসইও (SEO) অপ্টিমাইজেশন",
-    description: "আপনার তৈরি করা নেক্সট.জেএস ওয়েব অ্যাপ্লিকেশন কীভাবে সার্চ ইঞ্জিনের প্রথম পাতায় নিয়ে আসবেন তার একটি গাইডলাইন।",
-    author: "Shiuly Akhter",
-    date: "May 28, 2026",
-    category: "Web Dev",
-    gradient: "from-cyan-500 to-blue-500"
+    title: "10 Tips for Writing Better Blog Posts with AI",
+    excerpt: "Learn how to combine human creativity with AI assistance to produce blog posts that rank and convert.",
+    category: "Writing Tips",
+    readTime: "7 min read",
+    date: "June 8, 2025",
+    image: "✍️",
+    color: "from-emerald-500 to-teal-500",
   },
   {
     id: 3,
-    title: "কপিরাইটিংয়ের ভবিষ্যৎ এবং রাইটারদের ভূমিকা",
-    description: "এআই টুলস থাকা সত্ত্বেও কেন মানুষের ক্রিয়েটিভিটি এবং ইমোশনাল টাচ কপিরাইটিংয়ের জন্য আজীবন অপরিহার্য থাকবে।",
-    author: "Content Expert",
-    date: "May 15, 2026",
-    category: "Copywriting",
-    gradient: "from-emerald-500 to-teal-500"
-  }
+    title: "Social Media Content Strategy for 2025",
+    excerpt: "Discover the latest trends and strategies for creating engaging social media content using AI tools.",
+    category: "Social Media",
+    readTime: "6 min read",
+    date: "June 5, 2025",
+    image: "📱",
+    color: "from-pink-500 to-rose-500",
+  },
+  {
+    id: 4,
+    title: "Email Marketing: How AI Can Double Your Open Rates",
+    excerpt: "Find out how AI-generated subject lines and email copy can significantly improve your email marketing metrics.",
+    category: "Email Marketing",
+    readTime: "8 min read",
+    date: "June 2, 2025",
+    image: "📧",
+    color: "from-amber-500 to-orange-500",
+  },
+  {
+    id: 5,
+    title: "The Future of SEO: Writing for Both Humans and AI",
+    excerpt: "SEO is evolving fast. Learn how to optimize your content for both search engines and AI assistants.",
+    category: "SEO",
+    readTime: "9 min read",
+    date: "May 30, 2025",
+    image: "🔍",
+    color: "from-violet-500 to-purple-500",
+  },
+  {
+    id: 6,
+    title: "Building a Content Calendar with AI Assistance",
+    excerpt: "Plan months of content in hours with AI-powered content calendar strategies and WriteFlow AI templates.",
+    category: "Content Strategy",
+    readTime: "5 min read",
+    date: "May 28, 2025",
+    image: "📅",
+    color: "from-blue-500 to-amber-500",
+  },
 ];
 
-const BlogPage = () => {
-  return (
-    <div className="min-h-screen bg-slate-950 text-white p-4 md:p-8 pt-24 relative overflow-hidden">
-      {/* ব্যাকগ্রাউন্ডের চমৎকার গ্লোয়িং ইফেক্ট */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+const categoryColors: Record<string, string> = {
+  "AI & Technology": "bg-amber-100 text-amber-700",
+  "Writing Tips": "bg-emerald-100 text-emerald-700",
+  "Social Media": "bg-pink-100 text-pink-700",
+  "Email Marketing": "bg-amber-100 text-amber-700",
+  "SEO": "bg-violet-100 text-violet-700",
+  "Content Strategy": "bg-blue-100 text-blue-700",
+};
 
-       
-        {/* Back Button */}
-        <div className="p-6 pb-0">
-          <Link 
+export default function BlogPage() {
+  const featured = posts[0];
+  const rest = posts.slice(1);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-amber-600 to-amber-500 py-16 px-4">
+        <Link 
             href="/" 
             className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors tracking-widest uppercase"
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
-        </div>
-
-      <div className="max-w-6xl mx-auto relative z-10">
-        
-        {/* হেডার সেকশন */}
-        <div className="text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 mb-4">
-            <Sparkles className="h-3.5 w-3.5" /> WriteFlow Insights
-          </span>
-          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent mb-4">
-            আমাদের ব্লগ ও কন্টেন্ট হাব
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Sparkles className="h-6 w-6 text-white" />
+            <span className="text-white font-black text-xl">WriteFlow Blog</span>
+          </div>
+          <h1 className="text-4xl font-black text-white mb-4">
+            Content, AI & Writing Tips
           </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
-            কৃত্রিম বুদ্ধিমত্তা, কন্টেন্ট ক্রিয়েশন এবং আধুনিক ওয়েব ডেভেলপমেন্টের দুনিয়ার চমৎকার সব আর্টিকেল পড়ুন।
+          <p className="text-white/80 text-lg">
+            Content creation, AI tools ও writing strategies নিয়ে আমাদের latest articles।
           </p>
         </div>
+      </div>
 
-        {/* ব্লগের ৩-কলাম রেসপন্সিভ গ্রিড */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogPosts.map((post) => (
-            <article 
-              key={post.id} 
-              className="group backdrop-blur-xl bg-slate-900/40 border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/30 transition-all duration-300 flex flex-col hover:-translate-y-1 shadow-xl"
-            >
-              {/* কার্ডের উপরের ছোট কালার টপ-বার */}
-              <div className={`h-1.5 w-full bg-gradient-to-r ${post.gradient}`} />
-              
-              <div className="p-6 flex flex-col flex-grow">
-                {/* ক্যাটাগরি */}
-                <div className="mb-3">
-                  <span className="text-[10px] uppercase tracking-wider bg-white/5 border border-white/10 px-2.5 py-1 rounded-md text-slate-300 font-medium">
-                    {post.category}
-                  </span>
-                </div>
-
-                {/* টাইটেল */}
-                <h3 className="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors duration-200 line-clamp-2 mb-3">
-                  {post.title}
-                </h3>
-
-                {/* ডেসক্রিপশন */}
-                <p className="text-slate-400 text-sm line-clamp-3 mb-6 flex-grow">
-                  {post.description}
-                </p>
-
-                {/* মেটা ডেটা (লেখক ও তারিখ) */}
-                <div className="border-t border-white/5 pt-4 flex items-center justify-between text-xs text-slate-500">
-                  <div className="flex items-center gap-1.5">
-                    <User className="h-3.5 w-3.5 text-slate-400" />
-                    <span className="truncate max-w-[100px]">{post.author}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="h-3.5 w-3.5 text-slate-400" />
-                    <span>{post.date}</span>
-                  </div>
-                </div>
-
-                {/* Read More বাটন */}
-                <Link 
-                  href={`/blog/${post.id}`}
-                  className="mt-4 inline-flex items-center justify-center gap-1.5 w-full bg-slate-950 hover:bg-indigo-600 border border-white/10 hover:border-indigo-500 py-2.5 px-4 rounded-xl text-xs font-semibold text-white transition-all duration-300"
-                >
-                  বিস্তারিত পড়ুন
-                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
+      <div className="max-w-5xl mx-auto px-4 py-12">
+        {/* Featured Post */}
+        <div className="mb-10">
+          <h2 className="text-sm font-black text-gray-400 uppercase tracking-wider mb-4">Featured Post</h2>
+          <div className={`bg-gradient-to-br ${featured.color} rounded-2xl p-8 text-white relative overflow-hidden`}>
+            <div className="absolute right-6 top-6 text-6xl opacity-20">{featured.image}</div>
+            <span className="px-3 py-1 bg-white/20 rounded-xl text-xs font-bold mb-4 inline-block">
+              {featured.category}
+            </span>
+            <h3 className="text-2xl font-black mb-3 max-w-xl">{featured.title}</h3>
+            <p className="text-white/80 text-sm mb-5 max-w-lg">{featured.excerpt}</p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3 text-white/70 text-xs">
+                <Clock className="h-3.5 w-3.5" />
+                <span>{featured.readTime}</span>
+                <span>·</span>
+                <span>{featured.date}</span>
               </div>
-            </article>
-          ))}
+              <Link
+                href={`/blog/${featured.id}`}
+                className="flex items-center gap-2 px-4 py-2 bg-white text-amber-600 text-xs font-bold rounded-xl hover:bg-gray-50 transition-all"
+              >
+                Read More <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
         </div>
 
+        {/* All Posts */}
+        <h2 className="text-sm font-black text-gray-400 uppercase tracking-wider mb-4">All Articles</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {rest.map((post) => (
+            <div key={post.id} className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition-all group">
+              <div className={`bg-gradient-to-br ${post.color} p-8 flex items-center justify-center`}>
+                <span className="text-5xl">{post.image}</span>
+              </div>
+              <div className="p-5">
+                <span className={`px-2 py-1 rounded-lg text-xs font-bold ${categoryColors[post.category]}`}>
+                  {post.category}
+                </span>
+                <h3 className="text-gray-900 font-black text-sm mt-3 mb-2 group-hover:text-amber-600 transition-colors leading-snug">
+                  {post.title}
+                </h3>
+                <p className="text-gray-400 text-xs leading-relaxed mb-4 line-clamp-2">
+                  {post.excerpt}
+                </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5 text-gray-400 text-xs">
+                    <Clock className="h-3 w-3" />
+                    <span>{post.readTime}</span>
+                  </div>
+                  <Link
+                    href={`/blog/${post.id}`}
+                    className="flex items-center gap-1 text-amber-600 text-xs font-bold hover:gap-2 transition-all"
+                  >
+                    Read <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
-};
-
-export default BlogPage;
+}
