@@ -56,9 +56,9 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
           {/* লোগো সেকশন */}
           <div className="flex items-center">
             <Link href="/" className={`flex items-center gap-2 text-xl font-bold tracking-wide text-transparent bg-clip-text bg-gradient-to-r transition-all ${
-              isDarkMode ? "from-indigo-400 to-cyan-400" : "from-indigo-600 to-cyan-600"
+              isDarkMode ? "from-amber-400 to-amber-400" : "from-amber-600 to-amber-600"
             }`}>
-              <Sparkles className={`h-6 w-6 animate-pulse ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />
+              <Sparkles className={`h-6 w-6 animate-pulse ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />
               WriteFlow <span className={`font-light transition-colors ${isDarkMode ? "text-white" : "text-slate-900"}`}>AI</span>
             </Link>
           </div>
@@ -71,7 +71,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
                   key={link.name}
                   href={link.href}
                   className={`text-sm font-medium transition-colors duration-200 ${
-                    isDarkMode ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-indigo-600"
+                    isDarkMode ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-amber-600"
                   }`}
                 >
                   {link.name}
@@ -108,11 +108,11 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
                       alt="Profile"
                       width={36}
                       height={36}
-                      className="rounded-full border-2 border-indigo-500/50 object-cover"
+                      className="rounded-full border-2 border-amber-500/50 object-cover"
                     />
                   ) : (
-                    <div className={`h-9 w-9 rounded-full border-2 border-indigo-500/50 flex items-center justify-center font-bold text-sm bg-gradient-to-br text-white ${
-                      isDarkMode ? "from-indigo-600 to-cyan-600" : "from-indigo-500 to-cyan-500"
+                    <div className={`h-9 w-9 rounded-full border-2 border-amber-500/50 flex items-center justify-center font-bold text-sm bg-gradient-to-br text-white ${
+                      isDarkMode ? "from-amber-600 to-amber-600" : "from-amber-500 to-amber-600"
                     }`}>
                       {session.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
                     </div>
@@ -133,7 +133,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
                       href={dashboardHref}
                       onClick={() => setIsDropdownOpen(false)}
                       className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
-                        isDarkMode ? "hover:bg-slate-800 text-slate-300 hover:text-white" : "hover:bg-slate-50 text-slate-600 hover:text-indigo-600"
+                        isDarkMode ? "hover:bg-slate-800 text-slate-300 hover:text-white" : "hover:bg-slate-50 text-slate-600 hover:text-amber-600"
                       }`}
                     >
                       <LayoutDashboard className="h-4 w-4" /> Dashboard
@@ -143,7 +143,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
                       href="/dashboard/profile"
                       onClick={() => setIsDropdownOpen(false)}
                       className={`flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
-                        isDarkMode ? "hover:bg-slate-800 text-slate-300 hover:text-white" : "hover:bg-slate-50 text-slate-600 hover:text-indigo-600"
+                        isDarkMode ? "hover:bg-slate-800 text-slate-300 hover:text-white" : "hover:bg-slate-50 text-slate-600 hover:text-amber-600"
                       }`}
                     >
                       <User className="h-4 w-4" /> My Profile
@@ -164,11 +164,11 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
             ) : (
               status !== "loading" && (
                 <>
-                  <Link href="/login" className={`text-sm font-medium transition-colors ${isDarkMode ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-indigo-600"}`}>
+                  <Link href="/login" className={`text-sm font-medium transition-colors ${isDarkMode ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-amber-600"}`}>
                     Log In
                   </Link>
                   <Link href="/register" className={`rounded-xl px-4 py-2 text-sm font-medium text-white shadow-md transition-all duration-200 bg-gradient-to-r ${
-                    isDarkMode ? "from-indigo-500 to-cyan-500 shadow-indigo-500/10" : "from-indigo-600 to-cyan-600 shadow-indigo-600/10"
+                    isDarkMode ? "from-amber-500 to-amber-500 shadow-amber-500/10" : "from-amber-600 to-amber-600 shadow-amber-600/10"
                   } hover:opacity-95`}>
                     Register
                   </Link>
@@ -211,7 +211,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
               href={link.href}
               onClick={() => setIsOpen(false)}
               className={`block rounded-xl px-3 py-2 text-base font-medium transition-all ${
-                isDarkMode ? "text-slate-300 hover:bg-slate-900 hover:text-white" : "text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
+                isDarkMode ? "text-slate-300 hover:bg-slate-900 hover:text-white" : "text-slate-600 hover:bg-slate-50 hover:text-amber-600"
               }`}
             >
               {link.name}
@@ -222,7 +222,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
             {status === "authenticated" ? (
               <>
                 <div className="flex items-center gap-3 px-3 py-2 mb-2">
-                  <div className={`h-9 w-9 rounded-full flex items-center justify-center font-bold bg-indigo-600 text-white`}>
+                  <div className={`h-9 w-9 rounded-full flex items-center justify-center font-bold bg-amber-600 text-white`}>
                     {session.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
                   </div>
                   <div className="truncate">
@@ -248,11 +248,11 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
             ) : (
               status !== "loading" && (
                 <>
-                  <Link href="/login" onClick={() => setIsOpen(false)} className={`text-center py-2 text-sm font-medium ${isDarkMode ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-indigo-600"}`}>
+                  <Link href="/login" onClick={() => setIsOpen(false)} className={`text-center py-2 text-sm font-medium ${isDarkMode ? "text-slate-300 hover:text-white" : "text-slate-600 hover:text-amber-600"}`}>
                     Log In
                   </Link>
                   <Link href="/register" onClick={() => setIsOpen(false)} className={`text-center rounded-xl py-2.5 text-sm font-medium text-white shadow-md bg-gradient-to-r ${
-                    isDarkMode ? "from-indigo-500 to-cyan-500" : "from-indigo-600 to-cyan-600"
+                    isDarkMode ? "from-amber-500 to-amber-500" : "from-amber-600 to-amber-600"
                   }`}>
                     Register
                   </Link>

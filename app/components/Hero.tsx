@@ -13,10 +13,10 @@ export default function Hero({ isDarkMode }: HeroProps) {
       
       {/* ব্যাকগ্রাউন্ড গ্লো ইফেক্ট (ডার্ক এবং লাইট মোড অনুসারে ডাইনামিক অপাসিটি) */}
       <div className={`absolute top-1/4 left-1/2 -z-10 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500 ${
-        isDarkMode ? "bg-indigo-500/10 blur-[120px]" : "bg-indigo-500/5 blur-[100px]"
+        isDarkMode ? "bg-amber-500/10 blur-[120px]" : "bg-amber-500/5 blur-[100px]"
       }`}></div>
       <div className={`absolute top-1/3 left-1/3 -z-10 h-[250px] w-[250px] rounded-full transition-all duration-500 ${
-        isDarkMode ? "bg-cyan-500/10 blur-[100px]" : "bg-cyan-500/5 blur-[80px]"
+        isDarkMode ? "bg-amber-500/10 blur-[100px]" : "bg-amber-500/5 blur-[80px]"
       }`}></div>
 
       <div className="mx-auto max-w-4xl text-center">
@@ -24,10 +24,10 @@ export default function Hero({ isDarkMode }: HeroProps) {
         {/* অ্যানিমেটেড ব্যাজ (blur ছাড়া) */}
         <div className={`inline-flex mt-5 items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold transition-all mb-6 ${
           isDarkMode 
-            ? "border-indigo-500/50 bg-indigo-500/10 text-indigo-300" 
-            : "border-indigo-200 bg-indigo-50 text-indigo-700 shadow-sm"
+            ? "border-amber-500/50 bg-amber-500/10 text-amber-300" 
+            : "border-amber-200 bg-amber-50 text-amber-700 shadow-sm"
         }`}>
-          <span className={`flex h-2 w-2 rounded-full animate-ping ${isDarkMode ? "bg-indigo-400" : "bg-indigo-500"}`} />
+          <span className={`flex h-2 w-2 rounded-full animate-ping ${isDarkMode ? "bg-amber-400" : "bg-amber-500"}`} />
           Next-Gen Agentic AI Content Workspace
         </div>
 
@@ -37,7 +37,7 @@ export default function Hero({ isDarkMode }: HeroProps) {
         }`}>
           Supercharge Your Content with{" "}
           <span className={`block mt-2 ${
-            isDarkMode ? "from-indigo-400 via-purple-400 to-cyan-400" : "from-indigo-600 via-purple-600 to-cyan-600"
+            isDarkMode ? "from-amber-400 via-purple-400 to-amber-400" : "from-amber-600 via-purple-600 to-amber-600"
           }`}>
             Autonomous AI Agents
           </span>
@@ -53,9 +53,9 @@ export default function Hero({ isDarkMode }: HeroProps) {
         {/* CTA বাটন */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/register"
+            href="/dashboard/documents/new"
             className={`group inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-xl transition-all duration-200 w-full sm:w-auto justify-center bg-gradient-to-r ${
-              isDarkMode ? "from-indigo-500 to-cyan-500 shadow-indigo-500/20" : "from-indigo-600 to-cyan-600 shadow-indigo-600/10"
+              isDarkMode ? "from-amber-500 to-amber-500 shadow-amber-500/20" : "from-amber-600 to-amber-600 shadow-amber-600/10"
             } hover:opacity-95`}
           >
             Start Writing Free
@@ -80,11 +80,11 @@ export default function Hero({ isDarkMode }: HeroProps) {
           <div className={`flex items-center gap-2 border-b pb-3 mb-3 text-xs ${
             isDarkMode ? "border-white/5 text-slate-500" : "border-slate-100 text-slate-400"
           }`}>
-            <Terminal className={`h-4 w-4 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />
+            <Terminal className={`h-4 w-4 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />
             <span>writeflow-agent-v1.0.ts — Active</span>
           </div>
           <div className="text-left font-mono text-sm space-y-1">
-            <p className={`${isDarkMode ? "text-cyan-400" : "text-indigo-600 font-medium"}`}>🚀 Prompt: "Write a high-converting email for my SaaS launch..."</p>
+            <p className={`${isDarkMode ? "text-amber-400" : "text-amber-600 font-medium"}`}>🚀 Prompt: "Write a high-converting email for my SaaS launch..."</p>
             <p className={`animate-pulse ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>🤖 Agent Status: Generating structured editor-ready draft...</p>
           </div>
         </div>

@@ -17,7 +17,7 @@ interface PopularTemplatesProps {
 
 export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) {
   const templates: Template[] = [
-    { icon: <FileText className={`h-5 w-5 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />, title: "SEO Blog Post", description: "সার্চ ইঞ্জিনে র‍্যাঙ্ক করার মতো অপ্টিমাইজড লং-ফর্ম ব্লগ পোস্ট তৈরি করুন।", category: "Blog" },
+    { icon: <FileText className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "SEO Blog Post", description: "সার্চ ইঞ্জিনে র‍্যাঙ্ক করার মতো অপ্টিমাইজড লং-ফর্ম ব্লগ পোস্ট তৈরি করুন।", category: "Blog" },
     { icon: <Share2 className={`h-5 w-5 ${isDarkMode ? "text-cyan-400" : "text-cyan-600"}`} />, title: "LinkedIn Engagement", description: "আপনার প্রফেশনাল নেটওয়ার্কের জন্য আকর্ষক এবং ভাইরাল ক্যাপশন।", category: "Social Media" },
     { icon: <Mail className={`h-5 w-5 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />, title: "Cold Email Outreach", description: "ক্লাইন্ট বা লিড কনভার্ট করার জন্য পারসুয়াসিভ ইমেইল কপি।", category: "Email" },
     { icon: <MessageSquare className={`h-5 w-5 ${isDarkMode ? "text-emerald-400" : "text-emerald-600"}`} />, title: "Facebook Ad Copy", description: "বেশি সেলস এনে দেওয়ার মতো হাই-কনভার্টিং ফেসবুক বিজ্ঞাপন কপি।", category: "Ad Copy" }
@@ -47,7 +47,7 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
           <Link 
             href="/explore" 
             className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group ${
-              isDarkMode ? "text-indigo-400 hover:text-indigo-300" : "text-indigo-600 hover:text-indigo-500"
+              isDarkMode ? "text-amber-400 hover:text-amber-300" : "text-amber-600 hover:text-amber-500"
             }`}
           >
             View All Templates 
@@ -75,7 +75,7 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
               
               {/* ক্যাটাগরি ব্যাজ */}
               <span className={`text-[10px] uppercase font-semibold tracking-wider mb-1 transition-colors ${
-                isDarkMode ? "text-indigo-400" : "text-indigo-600"
+                isDarkMode ? "text-amber-400" : "text-amber-600"
               }`}>
                 {template.category}
               </span>
@@ -92,8 +92,8 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
               {/* ইউজ টেমপ্লেট বাটন */}
               <button className={`w-full rounded-xl border py-2.5 text-xs font-medium transition-all duration-200 ${
                 isDarkMode 
-                  ? "bg-slate-800 border-white/5 text-white hover:bg-indigo-600 hover:border-indigo-500" 
-                  : "bg-slate-100 border-slate-200 text-slate-700 hover:bg-indigo-600 hover:border-indigo-500 hover:text-white"
+                  ? "bg-slate-800 border-white/5 text-white hover:bg-amber-600 hover:border-amber-500" 
+                  : "bg-slate-100 border-slate-200 text-slate-700 hover:bg-amber-600 hover:border-amber-500 hover:text-white"
               }`}>
                 Use Template
               </button>

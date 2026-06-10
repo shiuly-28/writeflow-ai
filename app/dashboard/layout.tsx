@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import Sidebar from "./Sidebar";
+import ChatAssistant from "../components/dashboard/ChatAssistant";
 
 
 export default async function DashboardLayout({
@@ -16,6 +17,7 @@ export default async function DashboardLayout({
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar role={(session.user as any).role} user={session.user} />
       <main className="flex-1 ml-64 p-8 bg-gray-50">{children}</main>
+      <ChatAssistant/>
     </div>
   );
 }

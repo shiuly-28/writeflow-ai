@@ -1,198 +1,230 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Sparkles, Search, Code, PenTool, MessageSquare, Zap, ArrowRight, Grid, ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { useState, useEffect } from "react";
+import { Search, Star, Filter, Zap, ArrowRight, FileText } from "lucide-react";
+import Link from "next/link";
 
-const categories = [
-  { id: 'all', name: 'All Tools', icon: Grid },
-  { id: 'writing', name: 'Content Writing', icon: PenTool },
-  { id: 'coding', name: 'Coding Assistants', icon: Code },
-  { id: 'chat', name: 'AI Chatbots', icon: MessageSquare },
-];
+interface Template {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  rating: number;
+  usageCount: number;
+  tone: string;
+  image: string;
+}
 
-const exploreItems = [
-  {
-    id: 1,
-    title: "AI Blog Post Generator",
-    description: "যেকোনো টপিক দিন, আর এসইও ফ্রেন্ডলি সম্পূর্ণ ব্লগ পোস্ট জেনারেট করে নিন মুহূর্তের মধ্যে।",
-    category: "writing",
-    badge: "Popular",
-    clicks: "2.4k uses"
-  },
-  {
-    id: 2,
-    title: "Code Bug Fixer & Explainer",
-    description: "আপনার কোডের এরর পেস্ট করুন। এই এআই টুলটি এরর ফিক্স করার পাশাপাশি সহজ ভাষায় বুঝিয়েও দেবে।",
-    category: "coding",
-    badge: "New",
-    clicks: "1.2k uses"
-  },
-  {
-    id: 3,
-    title: "Social Media Caption Craft",
-    description: "ফেসবুক, লিঙ্কডইন বা ইনস্টাগ্রামের জন্য আকর্ষক এবং ট্রেন্ডি ক্যাপশন ও হ্যাশট্যাগ তৈরি করুন।",
-    category: "writing",
-    badge: "Free",
-    clicks: "950 uses"
-  },
-  {
-    id: 4,
-    title: "SQL Query Generator",
-    description: "সাধারণ ইংরেজিতে বলুন আপনি কী ডেটা চান, এআই আপনাকে নিখুঁত SQL কোড লিখে দেবে।",
-    category: "coding",
-    badge: "Pro",
-    clicks: "1.8k uses"
-  },
-  {
-    id: 5,
-    title: "Creative Story Teller",
-    description: "বাচ্চাদের গল্প বা উপন্যাসের প্লট আইডিয়া জেনারেট করার জন্য একটি অনন্য ক্রিয়েটিভ কন্টেন্ট টুল।",
-    category: "writing",
-    badge: "Free",
-    clicks: "620 uses"
-  },
-  {
-    id: 6,
-    title: "Contextual AI Chatbot",
-    description: "যেকোনো বড় ডকুমেন্টস বা পিডিএফ আপলোড করে সরাসরি তার সাথে চ্যাট বা প্রশ্ন-উত্তর করুন।",
-    category: "chat",
-    badge: "Hot",
-    clicks: "3.1k uses"
-  }
-];
+const categories = ["All", "Blog", "Social Media", "Email", "Ad Copy"];
+const sortOptions = ["Most Popular", "Highest Rated", "Newest"];
 
-const ExplorePage = () => {
-  const [activeCategory, setActiveCategory] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+const categoryColors: Record<string, string> = {
+  Blog: "bg-amber-100 text-amber-700",
+  "Social Media": "bg-pink-100 text-pink-700",
+  Email: "bg-emerald-100 text-emerald-700",
+  "Ad Copy": "bg-amber-100 text-amber-700",
+};
 
-  // ফিল্টারিং লজিক
-  const filteredItems = exploreItems.filter(item => {
-    const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
-    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+export default function ExplorePage() {
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+  const [sort, setSort] = useState("Most Popular");
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const perPage = 8;
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/templates");
+        if (res.ok) {
+          const data = await res.json();
+          setTemplates(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch templates:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTemplates();
+  }, []);
+
+  const filtered = templates
+    .filter((t) => {
+      const matchSearch =
+        t.title.toLowerCase().includes(search.toLowerCase()) ||
+        t.description.toLowerCase().includes(search.toLowerCase());
+      const matchCategory = category === "All" || t.category === category;
+      return matchSearch && matchCategory;
+    })
+    .sort((a, b) => {
+      if (sort === "Most Popular") return b.usageCount - a.usageCount;
+      if (sort === "Highest Rated") return b.rating - a.rating;
+      return b.id - a.id;
+    });
+
+  const paginated = filtered.slice(0, page * perPage);
+  const hasMore = paginated.length < filtered.length;
+
+  const SkeletonCard = () => (
+    <div className="bg-white border border-gray-200 rounded-2xl p-6 animate-pulse">
+      <div className="w-12 h-12 bg-gray-200 rounded-xl mb-4" />
+      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+      <div className="h-3 bg-gray-200 rounded w-full mb-4" />
+      <div className="h-3 bg-gray-200 rounded w-1/2" />
+    </div>
+  );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white p-4 md:p-8 pt-24 relative overflow-hidden">
-      {/* গ্লোয়িং গ্লাস ব্যাকগ্রাউন্ড ইফেক্ট */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-
-         
-        {/* Back Button */}
-        <div className="p-6 pb-0">
-          <Link
-            href="/" 
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors tracking-widest uppercase"
-          >
-            <ArrowLeft className="h-4 w-4" /> Back
-          </Link>
-        </div>
-
-      <div className="max-w-6xl mx-auto relative z-10">
-        
-        {/* হেডার ও ইন্ট্রো */}
-        <div className="flex flex-col items-center text-center mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 mb-4 animate-pulse">
-            <Zap className="h-3.5 w-3.5" /> Explore WriteFlow AI
-          </div>
-          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent mb-4">
-            স্মার্ট এআই টুলস গ্যালারি
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-amber-600 to-amber-500 py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl font-black text-white mb-4">
+            Explore Templates
           </h1>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
-            আপনার কাজকে ১০ গুণ সহজ করতে আমাদের কাস্টম-বিল্ট কৃত্রিম বুদ্ধিমত্তার ম্যাজিকাল টুলগুলো এক্সপ্লোর করুন।
+          <p className="text-white/80 text-lg mb-8">
+            AI-powered templates দিয়ে কন্টেন্ট লেখা শুরু করো
           </p>
-        </div>
 
-        {/* সার্চ এবং ফিল্টার সেকশন */}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8 backdrop-blur-xl bg-slate-900/20 border border-white/5 p-4 rounded-2xl">
-          {/* সার্চ বার */}
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+          {/* Search */}
+          <div className="relative max-w-xl mx-auto p-5">
+            <Search className="absolute left-4  top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="টুলস সার্চ করুন..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-950 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-500 transition-colors"
+              placeholder="Template খোঁজো..."
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              className="w-full bg-white rounded-2xl  p-8  pr-8 py-4 text-sm focus:outline-none shadow-lg"
             />
           </div>
+        </div>
+      </div>
 
-          {/* ফিল্টার ট্যাব */}
-          <div className="flex flex-wrap gap-2 w-full md:w-auto">
-            {categories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 border ${
-                    activeCategory === cat.id
-                      ? 'bg-gradient-to-r from-cyan-500 to-indigo-500 text-white border-transparent shadow-lg shadow-cyan-500/10'
-                      : 'bg-slate-950 border-white/10 text-slate-400 hover:text-white hover:border-white/20'
-                  }`}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                  {cat.name}
-                </button>
-              );
-            })}
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-4">
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          {/* Categories */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => { setCategory(cat); setPage(1); }}
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                  category === cat
+                    ? "bg-amber-600 text-white shadow-md"
+                    : "bg-white border border-gray-200 text-gray-600 hover:border-amber-300"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Sort */}
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-gray-400" />
+            <select
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="bg-white border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-amber-500"
+            >
+              {sortOptions.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
           </div>
         </div>
 
-        {/* টুলস গ্রিড */}
-        {filteredItems.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredItems.map((item) => (
-              <div
-                key={item.id}
-                className="group border border-white/10 bg-slate-900/40 backdrop-blur-xl rounded-2xl p-6 transition-all duration-300 hover:border-cyan-500/30 flex flex-col hover:-translate-y-1 shadow-xl"
-              >
-                {/* কার্ড হেডার (ব্যাজ ও ইউজেস) */}
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ${
-                    item.badge === 'Popular' || item.badge === 'Hot'
-                      ? 'bg-rose-500/10 border border-rose-500/20 text-rose-400'
-                      : item.badge === 'New'
-                      ? 'bg-cyan-500/10 border border-cyan-500/20 text-cyan-400'
-                      : 'bg-slate-800 text-slate-400'
-                  }`}>
-                    {item.badge}
-                  </span>
-                  <span className="text-[11px] text-slate-500">{item.clicks}</span>
-                </div>
+        {/* Results count */}
+        <p className="text-gray-500 text-sm mb-6">
+          {filtered.length} টি template পাওয়া গেছে
+        </p>
 
-                {/* টাইটেল */}
-                <h3 className="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors duration-200 flex items-center gap-2 mb-2">
-                  {item.title}
-                </h3>
-
-                {/* ডেসক্রিপশন */}
-                <p className="text-slate-400 text-xs leading-relaxed mb-6 flex-grow">
-                  {item.description}
-                </p>
-
-                {/* অ্যাকশন বাটন */}
-                <button className="inline-flex items-center justify-between w-full bg-slate-950 hover:bg-gradient-to-r hover:from-cyan-500 hover:to-indigo-500 group-hover:border-transparent border border-white/10 py-3 px-4 rounded-xl text-xs font-semibold text-white transition-all duration-300">
-                  <span>টুলটি ব্যবহার করুন</span>
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-            ))}
+        {/* Template Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="text-center py-24">
+            <p className="text-gray-400 text-lg">কোনো template পাওয়া যায়নি।</p>
+            <p className="text-gray-300 text-sm mt-1">অন্য keyword দিয়ে খোঁজো।</p>
           </div>
         ) : (
-          /* নট ফাউন্ড স্টেট */
-          <div className="text-center py-20 backdrop-blur-xl bg-slate-900/20 border border-white/5 rounded-2xl">
-            <Sparkles className="h-8 w-8 text-slate-600 mx-auto mb-3" />
-            <p className="text-slate-500 text-sm">আপনার খোঁজা টপিকের কোনো এআই টুল পাওয়া যায়নি।</p>
-          </div>
-        )}
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {paginated.map((template) => (
+                <div
+                  key={template.id}
+                  className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-lg hover:border-amber-200 transition-all group"
+                >
+                  {/* Icon */}
+                  <div className="text-4xl mb-4">{template.image}</div>
 
+                  {/* Category */}
+                  <span className={`px-2 py-1 rounded-lg text-xs font-bold ${categoryColors[template.category]}`}>
+                    {template.category}
+                  </span>
+
+                  {/* Title & Description */}
+                  <h3 className="text-gray-900 font-bold text-sm mt-3 mb-1 group-hover:text-amber-600 transition-colors">
+                    {template.title}
+                  </h3>
+                  <p className="text-gray-400 text-xs leading-relaxed mb-4">
+                    {template.description}
+                  </p>
+
+                  {/* Meta */}
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-1">
+                      <Star className="h-3.5 w-3.5 text-amber-400 fill-amber-400" />
+                      <span className="text-xs font-bold text-gray-700">{template.rating}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Zap className="h-3.5 w-3.5 text-amber-400" />
+                      <span className="text-xs text-gray-400">{template.usageCount.toLocaleString()}</span>
+                    </div>
+                  </div>
+                  
+
+                  {/* Button */}
+
+                  <Link
+  href={`/templates/${template.id}`}
+  className="w-full flex items-center justify-center gap-2 py-2 bg-gray-50 border border-gray-200 text-gray-600 text-xs font-semibold rounded-xl hover:bg-gray-100 transition-all mb-2"
+>
+  <FileText className="h-3.5 w-3.5" />
+  View Details
+</Link>
+                  <Link
+                    href={`/dashboard/documents/new?template=${template.id}&type=${encodeURIComponent(template.category)}&tone=${template.tone}`}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 text-white text-xs font-semibold rounded-xl hover:opacity-90 transition-all"
+                  >
+                    Use Template
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              ))}
+            </div>
+
+            {/* Load More */}
+            {hasMore && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={() => setPage(page + 1)}
+                  className="px-8 py-3 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-600 hover:border-amber-300 hover:text-amber-600 transition-all"
+                >
+                  আরো দেখাও
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
-};
-
-export default ExplorePage;
+}
