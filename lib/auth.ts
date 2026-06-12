@@ -32,9 +32,18 @@ export const authOptions: NextAuthOptions = {
           await connectDB();
           const user = await User.findOne({ email: inputEmail });
           if (!user) return null;
-          const isValid = await bcrypt.compare(credentials.password, user.password);
+          if (!user.password) return null;
+          const isValid = await bcrypt.compare(
+            credentials.password,
+            user.password as string
+          );
           if (!isValid) return null;
-          return { id: user._id.toString(), name: user.name, email: user.email, role: user.role || "user" } as any;
+          return {
+            id: user._id.toString(),
+            name: user.name,
+            email: user.email,
+            role: user.role || "user",
+          } as any;
         } catch (error) {
           console.error("Auth error:", error);
           return null;

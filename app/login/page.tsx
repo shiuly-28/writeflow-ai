@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation"; // 💡 useSearchParams ফেলে দেওয়া হয়েছে
 import { signIn } from "next-auth/react";
-import { Sparkles, Mail, Lock } from "lucide-react";
+import { Sparkles, Mail, Lock, Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -12,13 +12,17 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
+  // 💡 ব্রাউজারে পেজ লোড হওয়ার পর পিওর জাভাস্ক্রিপ্ট দিয়ে success মেসেজ রিড করা
   useEffect(() => {
-    const msg = searchParams.get("success");
-    if (msg) setSuccess(msg);
-  }, [searchParams]);
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const msg = params.get("success");
+      if (msg) setSuccess(msg);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,14 +38,14 @@ export default function LoginPage() {
       });
 
       if (res?.error) {
-  setError("ভুল ইমেইল অথবা পাসওয়ার্ড! আবার চেষ্টা করুন।");
-} else {
-  // role অনুযায়ী redirect
-  const session = await fetch("/api/auth/session").then((r) => r.json());
-  const role = session?.user?.role;
-  router.push(role === "admin" ? "/admin" : "/dashboard");
-  router.refresh();
-}
+        setError("ভুল ইমেইল অথবা পাসওয়ার্ড! আবার চেষ্টা করুন।");
+      } else {
+        // role অনুযায়ী redirect
+        const session = await fetch("/api/auth/session").then((r) => r.json());
+        const role = session?.user?.role;
+        router.push(role === "admin" ? "/admin" : "/dashboard");
+        router.refresh();
+      }
     } catch (err) {
       setError("অনাকাঙ্ক্ষিত কোনো সমস্যা ঘটেছে।");
     } finally {
@@ -51,6 +55,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background Glows */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
 
@@ -77,6 +82,7 @@ export default function LoginPage() {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email Field */}
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-2">Email Address</label>
             <div className="relative">
@@ -92,18 +98,31 @@ export default function LoginPage() {
             </div>
           </div>
 
+          {/* Password Field */}
           <div>
             <label className="block text-xs font-medium text-slate-300 mb-2">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-12 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
               />
+              
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors focus:outline-none"
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
             </div>
           </div>
 
