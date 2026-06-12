@@ -17,7 +17,7 @@ export default function Features({ isDarkMode }: FeaturesProps) {
   const features: Feature[] = [
     {
       // ডার্ক মোডে আইকন একটু ব্রাইট, লাইট মোডে একটু ডিপ করা হয়েছে যাতে স্পষ্ট দেখা যায়
-      icon: <Cpu className={`h-6 w-6 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />,
+      icon: <Cpu className={`h-6 w-6 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />,
       title: "AI Drafting Agent",
       description: "শুধু টপিক আর টোন সিলেক্ট করুন, আমাদের ব্যাকগ্রাউন্ড এজেন্ট স্বয়ংক্রিয়ভাবে রেডি-টু-পাবলিশ কন্টেন্ট ড্রাফট করে দেবে।"
     },
@@ -59,8 +59,8 @@ export default function Features({ isDarkMode }: FeaturesProps) {
               key={index} 
               className={`flex flex-col h-full rounded-2xl border p-6 shadow-xl transition-all duration-300 ${
                 isDarkMode 
-                  ? "border-white/10 bg-slate-900/40 hover:border-indigo-500/30" 
-                  : "border-slate-200/60 bg-white hover:border-indigo-500/20 hover:shadow-2xl"
+                  ? "border-white/10 bg-slate-900/40 hover:border-amber-500/30" 
+                  : "border-slate-200/60 bg-white hover:border-amber-500/20 hover:shadow-2xl"
               }`}
             >
               {/* আইকন কন্টেইনার বক্স */}

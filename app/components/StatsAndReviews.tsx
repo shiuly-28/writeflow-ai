@@ -61,7 +61,7 @@ export default function StatsAndReviews({ isDarkMode }: StatsAndReviewsProps) {
             <div key={index}>
               {/* স্ট্যাট ভ্যালু গ্রাডিয়েন্ট (লাইট মোডে একটু ডিপ কালার করা হয়েছে যাতে স্পষ্ট বোঝা যায়) */}
               <div className={`text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r mb-2 ${
-                isDarkMode ? "from-indigo-400 to-cyan-400" : "from-indigo-600 to-cyan-600"
+                isDarkMode ? "from-amber-400 to-amber-400" : "from-amber-600 to-amber-600"
               }`}>
                 {stat.value}
               </div>

@@ -2,6 +2,7 @@
 
 import { FileText, Share2, Mail, MessageSquare, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // 🎯 ১. useRouter ইম্পোর্ট করুন
 
 interface Template {
   icon: React.ReactNode;
@@ -10,12 +11,13 @@ interface Template {
   category: string;
 }
 
-// টাইপস্ক্রিপ্টের জন্য Props টাইপ ডিফাইন করা
 interface PopularTemplatesProps {
   isDarkMode: boolean;
 }
 
 export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) {
+  const router = useRouter(); // 🎯 ২. রাউটার ইনিশিয়ালাইজ করুন
+
   const templates: Template[] = [
     { icon: <FileText className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "SEO Blog Post", description: "সার্চ ইঞ্জিনে র‍্যাঙ্ক করার মতো অপ্টিমাইজড লং-ফর্ম ব্লগ পোস্ট তৈরি করুন।", category: "Blog" },
     { icon: <Share2 className={`h-5 w-5 ${isDarkMode ? "text-cyan-400" : "text-cyan-600"}`} />, title: "LinkedIn Engagement", description: "আপনার প্রফেশনাল নেটওয়ার্কের জন্য আকর্ষক এবং ভাইরাল ক্যাপশন।", category: "Social Media" },
@@ -23,8 +25,12 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
     { icon: <MessageSquare className={`h-5 w-5 ${isDarkMode ? "text-emerald-400" : "text-emerald-600"}`} />, title: "Facebook Ad Copy", description: "বেশি সেলস এনে দেওয়ার মতো হাই-কনভার্টিং ফেসবুক বিজ্ঞাপন কপি।", category: "Ad Copy" }
   ];
 
+  // 🎯 ৩. নেভিগেশনের জন্য হ্যান্ডলার ফাংশন
+  const handleUseTemplate = () => {
+    router.push("/dashboard"); 
+  };
+
   return (
-    // 💡 ডাইনামিক ব্যাকগ্রাউন্ড, টেক্সট এবং বর্ডার কালার টগল
     <section className={`py-20 px-4 border-t transition-colors duration-300 ${
       isDarkMode 
         ? "bg-slate-950 text-white border-white/5" 
@@ -55,7 +61,7 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
           </Link>
         </div>
 
-        {/* ৪-কলাম কার্ড গ্রিড (blur রিমুভড এবং কালার ডাইনামিক করা হয়েছে) */}
+        {/* ৪-কলাম কার্ড গ্রিড */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.map((template, index) => (
             <div 
@@ -66,14 +72,12 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
                   : "border-slate-200/60 bg-white"
               }`}
             >
-              {/* আইকন বক্স কন্টেইনার */}
               <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border ${
                 isDarkMode ? "bg-slate-800 border-white/5" : "bg-slate-100 border-slate-200/60"
               }`}>
                 {template.icon}
               </div>
               
-              {/* ক্যাটাগরি ব্যাজ */}
               <span className={`text-[10px] uppercase font-semibold tracking-wider mb-1 transition-colors ${
                 isDarkMode ? "text-amber-400" : "text-amber-600"
               }`}>
@@ -82,15 +86,16 @@ export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) 
               
               <h3 className="text-lg font-semibold mb-2">{template.title}</h3>
               
-              {/* ডেসক্রিপশন টেক্সট */}
               <p className={`text-xs leading-relaxed flex-grow mb-5 transition-colors ${
                 isDarkMode ? "text-slate-400" : "text-slate-600"
               }`}>
                 {template.description}
               </p>
               
-              {/* ইউজ টেমপ্লেট বাটন */}
-              <button className={`w-full rounded-xl border py-2.5 text-xs font-medium transition-all duration-200 ${
+              {/* 🎯 ৪. বাটনে onClick ইভেন্ট যোগ করা হয়েছে */}
+              <button 
+                onClick={handleUseTemplate}
+                className={`w-full rounded-xl border py-2.5 text-xs font-medium transition-all duration-200 ${
                 isDarkMode 
                   ? "bg-slate-800 border-white/5 text-white hover:bg-amber-600 hover:border-amber-500" 
                   : "bg-slate-100 border-slate-200 text-slate-700 hover:bg-amber-600 hover:border-amber-500 hover:text-white"

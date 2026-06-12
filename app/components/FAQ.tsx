@@ -65,7 +65,7 @@ export default function FAQ({ isDarkMode }: FAQProps) {
                   <span>{faq.question}</span>
                   <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform duration-300 ${
                     isOpen 
-                      ? "rotate-180 text-indigo-500" 
+                      ? "rotate-180 text-amber-500" 
                       : ""
                   }`} />
                 </button>

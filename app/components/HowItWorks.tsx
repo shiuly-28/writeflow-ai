@@ -16,10 +16,10 @@ interface HowItWorksProps {
 
 export default function HowItWorks({ isDarkMode }: HowItWorksProps) {
   const steps: Step[] = [
-    { number: "01", icon: <ClipboardList className={`h-5 w-5 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />, title: "Pick Template", description: "আপনার ক্যাটাগরি অনুযায়ী একটি রেডিমেড এআই টেমপ্লেট বেছে নিন।" },
-    { number: "02", icon: <MessageSquare className={`h-5 w-5 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />, title: "Enter Topic", description: "আপনার টপিক, কি-ওয়ার্ড এবং টার্গেট অডিয়েন্স ইনপুট দিন।" },
-    { number: "03", icon: <Cpu className={`h-5 w-5 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />, title: "AI Generates", description: "ব্যাকগ্রাউন্ড এজেন্ট স্বয়ংক্রিয়ভাবে কন্টেন্ট অপ্টিমাইজড করে তৈরি করবে।" },
-    { number: "04", icon: <CheckCircle className={`h-5 w-5 ${isDarkMode ? "text-indigo-400" : "text-indigo-600"}`} />, title: "Edit & Publish", description: "স্মার্ট এডিটরে ফাইনাল টাচ দিয়ে সরাসরি পাবলিশ বা এক্সপোর্ট করুন।" }
+    { number: "01", icon: <ClipboardList className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "Pick Template", description: "আপনার ক্যাটাগরি অনুযায়ী একটি রেডিমেড এআই টেমপ্লেট বেছে নিন।" },
+    { number: "02", icon: <MessageSquare className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "Enter Topic", description: "আপনার টপিক, কি-ওয়ার্ড এবং টার্গেট অডিয়েন্স ইনপুট দিন।" },
+    { number: "03", icon: <Cpu className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "AI Generates", description: "ব্যাকগ্রাউন্ড এজেন্ট স্বয়ংক্রিয়ভাবে কন্টেন্ট অপ্টিমাইজড করে তৈরি করবে।" },
+    { number: "04", icon: <CheckCircle className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "Edit & Publish", description: "স্মার্ট এডিটরে ফাইনাল টাচ দিয়ে সরাসরি পাবলিশ বা এক্সপোর্ট করুন।" }
   ];
 
   return (
@@ -64,8 +64,8 @@ export default function HowItWorks({ isDarkMode }: HowItWorksProps) {
               {/* আইকন কন্টেইনার বক্স */}
               <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg border ${
                 isDarkMode 
-                  ? "bg-indigo-500/10 border-indigo-500/20" 
-                  : "bg-indigo-50 border-indigo-100"
+                  ? "bg-amber-500/10 border-amber-500/20" 
+                  : "bg-amber-50 border-amber-100"
               }`}>
                 {step.icon}
               </div>

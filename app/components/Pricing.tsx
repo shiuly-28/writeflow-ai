@@ -1,6 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
+import { useRouter } from "next/navigation"; // 🎯 ১. useRouter ইম্পোর্ট করুন
 
 interface Plan {
   name: string;
@@ -10,12 +11,13 @@ interface Plan {
   isPopular: boolean;
 }
 
-// টাইপস্ক্রিপ্টের জন্য Props টাইপ ডিফাইন করা
 interface PricingProps {
   isDarkMode: boolean;
 }
 
 export default function Pricing({ isDarkMode }: PricingProps) {
+  const router = useRouter(); // 🎯 ২. রাউটার ইনিশিয়ালাইজ করুন
+
   const plans: Plan[] = [
     {
       name: "Free",
@@ -35,13 +37,18 @@ export default function Pricing({ isDarkMode }: PricingProps) {
       name: "Team",
       price: "$79",
       description: "এজেন্সি এবং বড় টিমের কন্টেন্ট কোলাবোরেশনের জন্য।",
-      features: ["আনলিমিটেড সবকিছু", "আনলিমিটেড টিম মেম্বার সিট", "কাস্টম এআই এজেন্ট ট্রেইনিং", "অ্যাডভান্সড অ্যানালিটিক্স ড্যাশবোর্ড"],
+      features: ["আনলিমিটেড সবকিছু", "আনলিমিটেড টিম মেম্বার সিট", "কাস্টম এআই এজেন্ট ট্রেইনিং", "অ্যাডভান্সড অ্যানალიটিক্স ড্যাশবোর্ড"],
       isPopular: false,
     },
   ];
 
+  // 🎯 ৩. বাটনে ক্লিক করলে ইউজারকে নির্দিষ্ট প্ল্যানসহ ড্যাশবোর্ড বা পেমেন্ট পেজে পাঠানোর ফাংশন
+  const handleSelectPlan = (planName: string) => {
+    // এটি ইউজারকে '/dashboard/checkout?plan=Pro' এর মতো ডাইনামিক ইউআরএল-এ নিয়ে যাবে
+    router.push(`/dashboard/checkout?plan=${planName.toLowerCase()}`);
+  };
+
   return (
-    // 💡 ডাইনামিক ব্যাকগ্রাউন্ড, টেক্সট এবং বর্ডার কালার টগল
     <section className={`py-20 px-4 border-t transition-colors duration-300 ${
       isDarkMode 
         ? "bg-slate-950 text-white border-white/5" 
@@ -61,7 +68,7 @@ export default function Pricing({ isDarkMode }: PricingProps) {
           </p>
         </div>
 
-        {/* ৩-কলাম কার্ড গ্রিড (blur রিমুভড এবং থিম অ্যাডাপ্টিভ করা হয়েছে) */}
+        {/* ৩-কলামカード গ্রিড */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch pt-4">
           {plans.map((plan, index) => (
             <div
@@ -69,16 +76,15 @@ export default function Pricing({ isDarkMode }: PricingProps) {
               className={`flex flex-col h-full rounded-2xl border p-8 shadow-xl relative transition-all duration-300 ${
                 plan.isPopular
                   ? isDarkMode
-                    ? "border-indigo-500 bg-slate-900/90 scale-105 z-10 md:-translate-y-2"
-                    : "border-indigo-600 bg-white scale-105 z-10 md:-translate-y-2 shadow-indigo-600/5"
+                    ? "border-amber-500 bg-slate-900/90 scale-105 z-10 md:-translate-y-2"
+                    : "border-amber-600 bg-white scale-105 z-10 md:-translate-y-2 shadow-amber-600/5"
                   : isDarkMode
-                    ? "border-white/10 bg-slate-900/40 hover:border-indigo-500/30"
-                    : "border-slate-200 bg-white hover:border-indigo-500/20"
+                    ? "border-white/10 bg-slate-900/40 hover:border-amber-500/30"
+                    : "border-slate-200 bg-white hover:border-amber-500/20"
               }`}
             >
-              {/* পপুলার ব্যাজ */}
               {plan.isPopular && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-indigo-500 to-cyan-500 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-sm">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-500 to-amber-500 px-4 py-1 text-xs font-semibold uppercase tracking-wider text-white shadow-sm">
                   Most Popular
                 </span>
               )}
@@ -91,21 +97,21 @@ export default function Pricing({ isDarkMode }: PricingProps) {
                 <span className={`text-sm transition-colors ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}> / month</span>
               </div>
 
-              {/* ফিচার লিস্ট */}
               <ul className="space-y-4 mb-8 flex-grow">
                 {plan.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-3 text-sm">
-                    <Check className={`h-4 w-4 mt-0.5 flex-shrink-0 ${isDarkMode ? "text-cyan-400" : "text-indigo-600"}`} />
+                    <Check className={`h-4 w-4 mt-0.5 flex-shrink-0 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />
                     <span className={isDarkMode ? "text-slate-300" : "text-slate-600"}>{feature}</span>
                   </li>
                 ))}
               </ul>
 
-              {/* অ্যাকশন বাটন */}
+              {/* 🎯 ৪. এখানে onClick ইভেন্ট হ্যান্ডলারটি যুক্ত করা হয়েছে */}
               <button
+                onClick={() => handleSelectPlan(plan.name)}
                 className={`w-full rounded-xl py-3 text-sm font-semibold transition-all duration-200 ${
                   plan.isPopular
-                    ? "bg-gradient-to-r from-indigo-500 to-cyan-500 text-white shadow-lg shadow-indigo-500/20 hover:opacity-95"
+                    ? "bg-gradient-to-r from-amber-500 to-amber-500 text-white shadow-lg shadow-amber-500/20 hover:opacity-95"
                     : isDarkMode
                       ? "bg-slate-800 border border-white/5 text-white hover:bg-slate-700"
                       : "bg-slate-100 border border-slate-200 text-slate-700 hover:bg-slate-200"

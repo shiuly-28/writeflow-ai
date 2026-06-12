@@ -22,9 +22,10 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // ইউজার রোল অনুযায়ী ড্যাশবোর্ড রুট ফিক্স করা
-const userRole = (session?.user as any)?.role;
-const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
+  // ইউজার রোল অনুযায়ী ড্যাশবোর্ড রুট ফিক্স করা
+  const userRole = (session?.user as any)?.role;
+  const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
+  
   const navLinks: NavLink[] = [
     { name: "Home", href: "/" },
     { name: "Explore", href: "/explore" },
@@ -43,6 +44,13 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  // নামের প্রথম অক্ষর অথবা জিমেইলের প্রথম অক্ষর বের করার ফাংশন
+  const getInitial = () => {
+    if (session?.user?.name) return session.user.name.charAt(0).toUpperCase();
+    if (session?.user?.email) return session.user.email.charAt(0).toUpperCase();
+    return "U";
+  };
 
   return (
     <nav className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
@@ -114,7 +122,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
                     <div className={`h-9 w-9 rounded-full border-2 border-amber-500/50 flex items-center justify-center font-bold text-sm bg-gradient-to-br text-white ${
                       isDarkMode ? "from-amber-600 to-amber-600" : "from-amber-500 to-amber-600"
                     }`}>
-                      {session.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
+                      {getInitial()}
                     </div>
                   )}
                 </button>
@@ -126,7 +134,7 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
                   }`}>
                     <div className="px-3 py-2 border-b mb-1 border-slate-100/10 max-w-full">
                       <p className="text-xs font-semibold text-slate-400 truncate">Logged in as</p>
-                      <p className="text-sm font-bold truncate">{session.user?.name}</p>
+                      <p className="text-sm font-bold truncate">{session.user?.name || session.user?.email}</p>
                     </div>
 
                     <Link
@@ -222,17 +230,32 @@ const dashboardHref = userRole === "admin" ? "/admin" : "/dashboard";
             {status === "authenticated" ? (
               <>
                 <div className="flex items-center gap-3 px-3 py-2 mb-2">
-                  <div className={`h-9 w-9 rounded-full flex items-center justify-center font-bold bg-amber-600 text-white`}>
-                    {session.user?.name ? session.user.name.charAt(0).toUpperCase() : "U"}
-                  </div>
+                  {/* 🟢 মোবাইল ভিউতেও এখন ইমেজ অবজেক্ট রেন্ডার হবে */}
+                  {session.user?.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt="Profile"
+                      width={36}
+                      height={36}
+                      className="rounded-full border-2 border-amber-500/50 object-cover"
+                    />
+                  ) : (
+                    <div className="h-9 w-9 rounded-full flex items-center justify-center font-bold bg-amber-600 text-white">
+                      {getInitial()}
+                    </div>
+                  )}
                   <div className="truncate">
-                    <p className="text-sm font-bold truncate">{session.user?.name}</p>
+                    <p className="text-sm font-bold truncate">{session.user?.name || "User"}</p>
                     <p className="text-xs text-slate-500 truncate">{session.user?.email}</p>
                   </div>
                 </div>
                 
                 <Link href={dashboardHref} onClick={() => setIsOpen(false)} className={`flex items-center gap-2 rounded-xl px-3 py-2 text-base font-medium ${isDarkMode ? "text-slate-300 hover:bg-slate-900" : "text-slate-600 hover:bg-slate-50"}`}>
                   <LayoutDashboard className="h-4 w-4" /> Dashboard
+                </Link>
+
+                <Link href="/dashboard/profile" onClick={() => setIsOpen(false)} className={`flex items-center gap-2 rounded-xl px-3 py-2 text-base font-medium ${isDarkMode ? "text-slate-300 hover:bg-slate-900" : "text-slate-600 hover:bg-slate-50"}`}>
+                  <User className="h-4 w-4" /> My Profile
                 </Link>
 
                 <button
