@@ -48,13 +48,13 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
 
       <div className="w-full max-w-md backdrop-blur-xl bg-slate-900/40 border border-white/10 p-8 rounded-2xl shadow-2xl relative z-10">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
-            <Sparkles className="h-6 w-6 text-indigo-400" />
+          <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-400 bg-clip-text text-transparent">
+            <Sparkles className="h-6 w-6 text-amber-400" />
             WriteFlow AI
           </Link>
           <h2 className="text-xl font-semibold mt-4 text-white">Get Started</h2>
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="John Doe"
-                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
           </div>
@@ -108,7 +108,7 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-indigo-500 transition-colors"
+                className="w-full rounded-xl bg-slate-950 border border-white/10 pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 transition-colors"
               />
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 hover:opacity-95 transition-all mt-2 disabled:opacity-50"
+            className="w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-500 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-500/20 hover:opacity-95 transition-all mt-2 disabled:opacity-50"
           >
             {loading ? "Creating Account..." : "Create Account"}
           </button>
@@ -124,7 +124,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-xs text-slate-400 mt-6">
           অলরেডি অ্যাকাউন্ট আছে?{" "}
-          <Link href="/login" className="text-cyan-400 hover:underline font-medium">
+          <Link href="/login" className="text-amber-400 hover:underline font-medium">
             লগইন করুন
           </Link>
         </p>
