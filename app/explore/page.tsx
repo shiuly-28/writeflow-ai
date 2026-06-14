@@ -81,15 +81,16 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-amber-600 to-amber-500 py-16 px-4">
+      <div className=" py-16 px-4">
         <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 hover:text-white transition-colors tracking-widest uppercase"
+            className="inline-flex items-center gap-2 text-xs font-semibold mt-4
+             hover:text-amber-500 transition-colors tracking-widest uppercase"
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl font-black text-white mb-4">
+          <h1 className="text-4xl font-black  mb-4">
             Explore Templates
           </h1>
           <p className="text-white/80 text-lg mb-8">

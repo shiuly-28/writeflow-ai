@@ -80,19 +80,19 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <div className="bg-gradient-to-br from-amber-600 to-amber-500 py-16 px-4">
+      <div className=" py-16 px-4">
         <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors tracking-widest uppercase"
+            className="inline-flex items-center gap-2 text-xs font-semibold  hover:text-amber-500 transition-colors tracking-widest uppercase"
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="h-6 w-6 text-white" />
-            <span className="text-white font-black text-xl">WriteFlow Blog</span>
+            <Sparkles className="h-6 w-6 " />
+            <span className=" font-black text-xl">WriteFlow Blog</span>
           </div>
-          <h1 className="text-4xl font-black text-white mb-4">
+          <h1 className="text-4xl font-black  mb-4">
             Content, AI & Writing Tips
           </h1>
           <p className="text-white/80 text-lg">
@@ -101,9 +101,9 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-12">
+      <div className="max-w-5xl mx-auto px-4 py-12 mt-4">
         {/* Featured Post */}
-        <div className="mb-10">
+        <div className="mb-12">
           <h2 className="text-sm font-black text-gray-400 uppercase tracking-wider mb-4">Featured Post</h2>
           <div className={`bg-gradient-to-br ${featured.color} rounded-2xl p-8 text-white relative overflow-hidden`}>
             <div className="absolute right-6 top-6 text-6xl opacity-20">{featured.image}</div>

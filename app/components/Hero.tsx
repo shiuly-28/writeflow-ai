@@ -20,16 +20,7 @@ export default function Hero({ isDarkMode }: HeroProps) {
       }`}></div>
 
       <div className="mx-auto max-w-4xl text-center">
-        
-        {/* অ্যানিমেটেড ব্যাজ (blur ছাড়া) */}
-        <div className={`inline-flex mt-5 items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold transition-all mb-6 ${
-          isDarkMode 
-            ? "border-amber-500/50 bg-amber-500/10 text-amber-300" 
-            : "border-amber-200 bg-amber-50 text-amber-700 shadow-sm"
-        }`}>
-          <span className={`flex h-2 w-2 rounded-full animate-ping ${isDarkMode ? "bg-amber-400" : "bg-amber-500"}`} />
-          Next-Gen Agentic AI Content Workspace
-        </div>
+     
 
         {/* মেইন হেডлайн (ক্লিয়ার গ্রাডিয়েন্ট টেক্সট) */}
         <h1 className={`text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r transition-all ${
