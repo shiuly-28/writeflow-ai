@@ -41,7 +41,7 @@ export default function AboutPage() {
           <h1 className="text-4xl md:text-5xl font-black  mb-6">
             We're Building the Future of Content Creation
           </h1>
-          <p className="text-white/80 text-lg max-w-2xl mx-auto">
+          <p className="text-lg max-w-2xl mx-auto">
             WriteFlow AI হলো একটি AI-powered content platform যা writers, marketers ও businesses কে better content তৈরি করতে সাহায্য করে।
           </p>
         </div>

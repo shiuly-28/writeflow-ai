@@ -93,7 +93,7 @@ export default function ExplorePage() {
           <h1 className="text-4xl font-black  mb-4">
             Explore Templates
           </h1>
-          <p className="text-white/80 text-lg mb-8">
+          <p className=" text-lg mb-8">
             AI-powered templates দিয়ে কন্টেন্ট লেখা শুরু করো
           </p>
 

@@ -83,7 +83,7 @@ export default function BlogPage() {
       <div className=" py-16 px-4">
         <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-xs font-semibold  hover:text-amber-500 transition-colors tracking-widest uppercase"
+            className="inline-flex items-center gap-2 text-xs font-semibold  hover: transition-colors tracking-widest uppercase"
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
@@ -95,7 +95,7 @@ export default function BlogPage() {
           <h1 className="text-4xl font-black  mb-4">
             Content, AI & Writing Tips
           </h1>
-          <p className="text-white/80 text-lg">
+          <p className="text-lg">
             Content creation, AI tools ও writing strategies নিয়ে আমাদের latest articles।
           </p>
         </div>
