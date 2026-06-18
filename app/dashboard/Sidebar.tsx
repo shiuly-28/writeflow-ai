@@ -7,7 +7,7 @@ import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, FileText, User, History,
   BarChart3, Users, BookOpen, Star, Settings,
-  LogOut, Sparkles, ChevronLeft, Menu,
+  LogOut, Sparkles, ChevronLeft, Menu, X,
   PenTool,
 } from "lucide-react";
 
@@ -25,23 +25,49 @@ const adminLinks = [
   { href: "/admin/templates", label: "Templates", icon: BookOpen },
   { href: "/admin/reviews", label: "Reviews", icon: Star },
   { href: "/admin/settings", label: "Settings", icon: Settings },
-  
 ];
 
 export default function Sidebar({ role, user }: { role: string; user: any }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const links = role === "admin" ? adminLinks : userLinks;
 
   return (
     <>
-      {/* Sidebar */}
-      <aside className={`fixed left-0 top-0 h-full bg-white border-r border-amber-500/20 flex flex-col z-40 shadow-sm transition-all duration-300 ${
-        collapsed ? "w-16" : "w-60"
-      }`}>
+      {/* Mobile Top Bar */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-amber-500/20 flex items-center justify-between px-4 z-50 shadow-sm">
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-sm">
+            <Sparkles className="h-4 w-4 text-white" />
+          </div>
+          <p className="text-sm font-bold text-slate-900">WriteFlow</p>
+        </Link>
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="p-2 rounded-xl hover:bg-amber-50 transition-all"
+        >
+          {mobileOpen ? <X className="h-5 w-5 text-slate-600" /> : <Menu className="h-5 w-5 text-slate-600" />}
+        </button>
+      </div>
 
-        {/* Logo + Toggle */}
-        <div className="px-3 py-4 border-b border-gray-100 flex items-center justify-between">
+      {/* Mobile Overlay */}
+      {mobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/40 z-40"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`fixed left-0 top-0 h-full bg-white border-r border-amber-500/20 flex flex-col shadow-sm transition-all duration-300 z-50
+        ${collapsed ? "w-16" : "w-60"}
+        ${mobileOpen ? "translate-x-0" : "-translate-x-full"} lg:translate-x-0
+        pt-14 lg:pt-0`}
+      >
+        {/* Logo + Toggle (desktop only) */}
+        <div className="hidden lg:flex px-3 py-4 border-b border-gray-100 items-center justify-between">
           {!collapsed && (
             <Link href="/" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center flex-shrink-0 shadow-sm">
@@ -53,7 +79,6 @@ export default function Sidebar({ role, user }: { role: string; user: any }) {
               </div>
             </Link>
           )}
-
           {collapsed && (
             <div className="w-full flex justify-center">
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-sm">
@@ -61,24 +86,16 @@ export default function Sidebar({ role, user }: { role: string; user: any }) {
               </div>
             </div>
           )}
-
           {!collapsed && (
-            <button
-              onClick={() => setCollapsed(true)}
-              className="p-1.5 rounded-lg hover:bg-amber-50 transition-all text-slate-400 hover:text-amber-600"
-            >
+            <button onClick={() => setCollapsed(true)} className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600">
               <ChevronLeft className="h-4 w-4" />
             </button>
           )}
         </div>
 
-        {/* Collapsed Toggle Button */}
         {collapsed && (
-          <div className="flex justify-center py-3 border-b border-gray-100">
-            <button
-              onClick={() => setCollapsed(false)}
-              className="p-1.5 rounded-lg hover:bg-amber-50 transition-all text-slate-400 hover:text-amber-600"
-            >
+          <div className="hidden lg:flex justify-center py-3 border-b border-gray-100">
+            <button onClick={() => setCollapsed(false)} className="p-1.5 rounded-lg hover:bg-amber-50 text-slate-400 hover:text-amber-600">
               <Menu className="h-4 w-4" />
             </button>
           </div>
@@ -101,14 +118,6 @@ export default function Sidebar({ role, user }: { role: string; user: any }) {
           </div>
         )}
 
-        {collapsed && (
-          <div className="flex justify-center py-3 border-b border-gray-100">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center text-white text-xs font-bold shadow-sm">
-              {user?.name?.[0]?.toUpperCase() || "U"}
-            </div>
-          </div>
-        )}
-
         {/* Section Label */}
         {!collapsed && (
           <div className="px-5 pt-4 pb-1">
@@ -127,6 +136,7 @@ export default function Sidebar({ role, user }: { role: string; user: any }) {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={() => setMobileOpen(false)}
                 title={collapsed ? link.label : ""}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   collapsed ? "justify-center" : ""
@@ -158,9 +168,14 @@ export default function Sidebar({ role, user }: { role: string; user: any }) {
         </div>
       </aside>
 
-      {/* Main content margin adjuster */}
+      {/* Margin adjuster */}
       <style>{`
-        main { margin-left: ${collapsed ? "4rem" : "15rem"} !important; }
+        @media (min-width: 1024px) {
+          main { margin-left: ${collapsed ? "4rem" : "15rem"} !important; }
+        }
+        @media (max-width: 1023px) {
+          main { margin-left: 0 !important; margin-top: 3.5rem !important; }
+        }
       `}</style>
     </>
   );

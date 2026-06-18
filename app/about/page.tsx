@@ -26,10 +26,10 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <div className=" py-20 px-4 mb-4">
+      <div className="py-20 px-4">
         <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-xs font-semibold  hover:text-white transition-colors tracking-widest uppercase"
+            className="inline-flex items-center gap-2 text-xs font-semibold  hover: transition-colors tracking-widest uppercase"
           >
             <ArrowLeft className="h-4 w-4" /> Back
           </Link>
