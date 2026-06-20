@@ -78,7 +78,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
             <ul className={`space-y-3 text-sm ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
               <li><Link href="/about" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>About Us</Link></li>
               <li><Link href="/explore" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>How It Works</Link></li>
-              <li><Link href="/faq" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>FAQ</Link></li>
+             <li><Link href="/#faq" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>FAQ</Link></li>
             </ul>
           </div>
 
@@ -88,7 +88,7 @@ export default function Footer({ isDarkMode }: FooterProps) {
             <ul className={`space-y-3 text-sm ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
               <li><Link href="/blog" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>Blogs</Link></li>
               <li><Link href="/contact" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>Contact</Link></li>
-              <li><Link href="/creators" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>Creators</Link></li>
+             <li><Link href="/about" className={`transition-colors ${isDarkMode ? "hover:text-white" : "hover:text-amber-600"}`}>Creators</Link></li>
             </ul>
           </div>
 

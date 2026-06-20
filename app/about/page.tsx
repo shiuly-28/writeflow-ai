@@ -26,13 +26,14 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <div className="py-20 px-4">
+      <div className="">
         <Link 
             href="/" 
-            className="inline-flex items-center gap-2 text-xs font-semibold  hover: transition-colors tracking-widest uppercase"
+            className="inline-flex items-center  gap-2 text-xs font-semibold  hover: transition-colors tracking-widest uppercase"
           >
-            <ArrowLeft className="h-4 w-4" /> Back
+            <ArrowLeft className="h-4 w-4 " /> Back
           </Link>
+          
         <div className="max-w-4xl mx-auto text-center">
           <div className="flex items-center justify-center gap-2 mb-6">
             <Sparkles className="h-8 w-8 " />
