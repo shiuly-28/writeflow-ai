@@ -45,7 +45,6 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // নামের প্রথম অক্ষর অথবা জিমেইলের প্রথম অক্ষর বের করার ফাংশন
   const getInitial = () => {
     if (session?.user?.name) return session.user.name.charAt(0).toUpperCase();
     if (session?.user?.email) return session.user.email.charAt(0).toUpperCase();
@@ -88,7 +87,6 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
             </div>
           </div>
 
-          {/* ডেক্সটপ রাইট সাইড বাটন, থিম সুইচার ও প্রোফাইল ড্রপডাউন */}
           <div className="hidden md:flex items-center gap-4">
             
             {/* ☀️/🌙 থিম সুইচার */}
@@ -127,7 +125,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
                   )}
                 </button>
 
-                {/* ডেক্সটপ প্রোফাইল ড্রপডাউন মেনু */}
+                
                 {isDropdownOpen && (
                   <div className={`absolute right-0 mt-2 w-56 rounded-2xl border p-2 shadow-xl transition-all duration-200 ${
                     isDarkMode ? "bg-slate-900 border-white/10 text-white" : "bg-white border-slate-200 text-slate-900"
@@ -230,7 +228,7 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
             {status === "authenticated" ? (
               <>
                 <div className="flex items-center gap-3 px-3 py-2 mb-2">
-                  {/* 🟢 মোবাইল ভিউতেও এখন ইমেজ অবজেক্ট রেন্ডার হবে */}
+                 
                   {session.user?.image ? (
                     <Image
                       src={session.user.image}

@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false); // 🎯 গুগল লোডিংয়ের জন্য আলাদা স্টেট
+  const [googleLoading, setGoogleLoading] = useState(false); 
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
@@ -20,7 +20,7 @@ export default function LoginPage() {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const msg = params.get("success");
-      const authError = params.get("error"); // যদি গুগল লগইনে কোনো এরর আসে
+      const authError = params.get("error"); 
       if (msg) setSuccess(msg);
       if (authError) setError("গুগল লগইন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।");
     }
@@ -59,8 +59,7 @@ export default function LoginPage() {
     setGoogleLoading(true);
     setError("");
     try {
-      // এটি সরাসরি ইউজারকে গুগলের অফিশিয়াল লগইন স্ক্রিনে নিয়ে যাবে
-      // লগইন সফল হলে NextAuth অটোমেটিক সেশন তৈরি করে ড্যাশবোর্ডে রিডাইরেক্ট করবে
+      
       await signIn("google", { callbackUrl: "/dashboard" });
     } catch (err) {
       setError("গুগল সার্ভারে কানেক্ট করতে সমস্যা হচ্ছে।");
