@@ -1,85 +1,130 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight, Terminal } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight, Pin } from "lucide-react";
 
 interface HeroProps {
   isDarkMode: boolean;
 }
 
+const SLIDES = ["/hero-photo-1.jpg", "/hero-photo-2.jpg", "/hero-photo-3.jpg"];
+
 export default function Hero({ isDarkMode }: HeroProps) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActive((prev) => (prev + 1) % SLIDES.length);
+    }, 4000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <section className="relative flex min-h-[70vh] items-center justify-center overflow-hidden px-4">
+    <section
+      className="relative overflow-hidden px-4 py-20 sm:py-28"
       
-      {/* ব্যাকগ্রাউন্ড গ্লো ইফেক্ট (ডার্ক এবং লাইট মোড অনুসারে ডাইনামিক অপাসিটি) */}
-      <div className={`absolute top-1/4 left-1/2 -z-10 h-[300px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500 ${
-        isDarkMode ? "bg-amber-500/10 blur-[120px]" : "bg-amber-500/5 blur-[100px]"
-      }`}></div>
-      <div className={`absolute top-1/3 left-1/3 -z-10 h-[250px] w-[250px] rounded-full transition-all duration-500 ${
-        isDarkMode ? "bg-amber-500/10 blur-[100px]" : "bg-amber-500/5 blur-[80px]"
-      }`}></div>
-
-      <div className="mx-auto max-w-4xl text-center">
-     
-
-        {/* মেইন হেডлайн (ক্লিয়ার গ্রাডিয়েন্ট টেক্সট) */}
-        <h1 className={`text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-r transition-all ${
-          isDarkMode ? "from-white via-slate-200 to-slate-400" : "from-slate-900 via-slate-800 to-slate-600"
-        }`}>
-          Supercharge Your Content with{" "}
-          <span className={`block mt-2 ${
-            isDarkMode ? "from-amber-400 via-purple-400 to-amber-400" : "from-amber-600 via-purple-600 to-amber-600"
-          }`}>
-            Autonomous AI Agents
-          </span>
-        </h1>
-
-        {/* সাব-হেডлайн */}
-        <p className={`mx-auto mt-6 max-w-2xl text-base sm:text-lg leading-relaxed transition-colors ${
-          isDarkMode ? "text-slate-400" : "text-slate-600"
-        }`}>
-          WriteFlow AI-এর ইন্টেলিজেন্ট ব্যাকগ্রাউন্ড এজেন্ট আপনার হয়ে ব্লগ পোস্ট, সোশ্যাল মিডিয়া ক্যাপশন এবং ইমেইল কপি প্ল্যান ও জেনারেট করবে স্বয়ংক্রিয়ভাবে।
-        </p>
-
-        {/* CTA বাটন */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/dashboard/documents/new"
-            className={`group inline-flex items-center gap-2 rounded-xl px-6 py-3.5 text-base font-semibold text-white shadow-xl transition-all duration-200 w-full sm:w-auto justify-center bg-gradient-to-r ${
-              isDarkMode ? "from-amber-500 to-amber-500 shadow-amber-500/20" : "from-amber-600 to-amber-600 shadow-amber-600/10"
-            } hover:opacity-95`}
+    >
+      <div className="relative mx-auto max-w-6xl grid md:grid-cols-[1.1fr_1fr] gap-16 items-center">
+        {/* বাম কলাম — হেডলাইন */}
+        <div>
+          <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.06] tracking-tight">
+            Your draft, edited by an agent that never sleeps.
+          </h1>
+          <p
+            className="mt-6 max-w-md text-base sm:text-lg leading-relaxed"
+            style={{ color: "var(--ink-soft)" }}
           >
-            Start Writing Free
-            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link
-            href="/explore"
-            className={`inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-base font-semibold transition-all w-full sm:w-auto border ${
-              isDarkMode 
-                ? "border-slate-800 bg-slate-900/50 text-slate-300 hover:bg-slate-800 hover:text-white" 
-                : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-sm"
-            }`}
-          >
-            Explore Templates
-          </Link>
-        </div>
+            WriteFlow AI-এর ব্যাকগ্রাউন্ড এজেন্ট আপনার ব্লগ, সোশ্যাল ক্যাপশন আর ইমেইল কপি প্ল্যান করে, খসড়া লেখে এবং সম্পাদনা করে — আপনি শুধু অনুমোদন করবেন।
+          </p>
 
-        {/* ফ্লোটিং কার্ড (blur ছাড়া) */}
-        <div className={`mt-16 mx-auto max-w-2xl rounded-2xl border p-4 shadow-2xl transition-all ${
-          isDarkMode ? "border-white/10 bg-slate-900/40" : "border-slate-200/60 bg-white shadow-md"
-        }`}>
-          <div className={`flex items-center gap-2 border-b pb-3 mb-3 text-xs ${
-            isDarkMode ? "border-white/5 text-slate-500" : "border-slate-100 text-slate-400"
-          }`}>
-            <Terminal className={`h-4 w-4 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />
-            <span>writeflow-agent-v1.0.ts — Active</span>
+          <div className="mt-9 flex flex-col sm:flex-row gap-4">
+            <Link
+              href="/dashboard/documents/new"
+              className="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-base font-medium text-white justify-center transition-transform hover:scale-[1.02]"
+              style={{ background: "var(--ink)" }}
+            >
+              Start writing free
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              href="/explore"
+              className="inline-flex items-center justify-center rounded-full px-6 py-3.5 text-base font-medium border transition-colors hover:opacity-70"
+              style={{ borderColor: "var(--line)" }}
+            >
+              Browse templates
+            </Link>
           </div>
-          <div className="text-left font-mono text-sm space-y-1">
-            <p className={`${isDarkMode ? "text-amber-400" : "text-amber-600 font-medium"}`}>🚀 Prompt: "Write a high-converting email for my SaaS launch..."</p>
-            <p className={`animate-pulse ${isDarkMode ? "text-slate-400" : "text-slate-500"}`}>🤖 Agent Status: Generating structured editor-ready draft...</p>
+
+          <div className="mt-10 flex items-center gap-6 text-sm" style={{ color: "var(--ink-soft)" }}>
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--sage)" }} />
+              No credit card required
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--sage)" }} />
+              5,000 free words / month
+            </span>
           </div>
         </div>
 
+        {/* ডান কলাম — sliding photo + manuscript card collage */}
+        <div className="relative">
+          {/* ছবির slider */}
+          <div
+            className="relative rounded-sm overflow-hidden shadow-xl hero-photo-anim"
+            style={{ border: "1px solid var(--line)" }}
+          >
+            <div className="relative w-full h-[420px] sm:h-[480px]">
+              {SLIDES.map((src, i) => (
+                <Image
+                  key={src}
+                  src={src}
+                  alt="WriteFlow AI editorial workspace"
+                  fill
+                  priority={i === 0}
+                  className="object-cover transition-opacity duration-1000 ease-in-out"
+                  style={{ opacity: active === i ? 1 : 0 }}
+                />
+              ))}
+              <div
+                className="absolute inset-0"
+                style={{ background: isDarkMode ? "rgba(20,23,31,0.35)" : "rgba(28,35,49,0.08)" }}
+              />
+            </div>
+
+            {/* slider dots */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+              {SLIDES.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActive(i)}
+                  aria-label={`Slide ${i + 1}`}
+                  className="h-2 rounded-full transition-all duration-300"
+                  style={{
+                    width: active === i ? "18px" : "8px",
+                    background: active === i ? "var(--amber)" : "rgba(255,255,255,0.6)",
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* manuscript card — ফটোর উপর pin করা */}
+         
+
+          {/* floating stat badge */}
+          <div
+            className="absolute -top-6 -right-4 sm:-right-8 rounded-full border shadow-lg px-4 py-2.5 hidden sm:block hero-badge-anim"
+            style={{ background: "var(--ink)", borderColor: "var(--ink)" }}
+          >
+            <p className="font-display text-base leading-none text-white">2,481</p>
+            <p className="text-[10px] font-mono mt-1" style={{ color: "var(--amber)" }}>
+              words today
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
