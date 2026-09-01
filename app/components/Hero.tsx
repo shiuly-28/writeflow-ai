@@ -42,8 +42,9 @@ export default function Hero({ isDarkMode }: HeroProps) {
           <div className="mt-9 flex flex-col sm:flex-row gap-4">
             <Link
               href="/dashboard/documents/new"
-              className="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-base font-medium text-white justify-center transition-transform hover:scale-[1.02]"
-              style={{ background: "var(--ink)" }}
+              className="group inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-base font-medium text-white justify-center transition-transform hover:scale-[1.02]
+               bg-amber-500 hover:bg-amber-700"
+             
             >
               Start writing free
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />

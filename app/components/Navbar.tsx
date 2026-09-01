@@ -158,8 +158,8 @@ export default function Navbar({ isDarkMode, setIsDarkMode }: NavbarProps) {
                   </Link>
                   <Link
                     href="/register"
-                    className="rounded-full px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-[1.02]"
-                    style={{ background: "var(--ink)" }}
+                    className="rounded-full px-4 py-2 text-sm font-medium text-white transition-transform hover:scale-[1.02] bg-amber-500 hover:bg-amber-600"
+                    
                   >
                     Register
                   </Link>

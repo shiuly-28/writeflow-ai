@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FAQ from "./components/FAQ";
 import Features from "./components/Features";
 import Footer from "./components/Footer";
@@ -13,6 +13,12 @@ import StatsAndReviews from "./components/StatsAndReviews";
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  // html এ dark class toggle করি, যাতে globals.css এর .dark { ... } token সব
+  // CSS-variable-ভিত্তিক component (Features, FAQ, StatsAndReviews) এ কাজ করে
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   return (
     <main className={`min-h-screen transition-colors duration-300 ${

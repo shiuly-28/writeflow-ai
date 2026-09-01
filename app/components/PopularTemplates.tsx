@@ -1,14 +1,19 @@
 "use client";
 
-import { FileText, Share2, Mail, MessageSquare, ArrowRight } from "lucide-react";
+import { FileText, Share2, Mail, MessageSquare, ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // 🎯 ১. useRouter ইম্পোর্ট করুন
+import { useRouter } from "next/navigation";
 
 interface Template {
   icon: React.ReactNode;
   title: string;
   description: string;
   category: string;
+  accent: string;
+  accentSoft: string;
+  stat: string;
+  statLabel: string;
+  preview: string[];
 }
 
 interface PopularTemplatesProps {
@@ -16,96 +21,156 @@ interface PopularTemplatesProps {
 }
 
 export default function PopularTemplates({ isDarkMode }: PopularTemplatesProps) {
-  const router = useRouter(); // 🎯 ২. রাউটার ইনিশিয়ালাইজ করুন
+  const router = useRouter();
 
   const templates: Template[] = [
-    { icon: <FileText className={`h-5 w-5 ${isDarkMode ? "text-amber-400" : "text-amber-600"}`} />, title: "SEO Blog Post", description: "সার্চ ইঞ্জিনে র‍্যাঙ্ক করার মতো অপ্টিমাইজড লং-ফর্ম ব্লগ পোস্ট তৈরি করুন।", category: "Blog" },
-    { icon: <Share2 className={`h-5 w-5 ${isDarkMode ? "text-cyan-400" : "text-cyan-600"}`} />, title: "LinkedIn Engagement", description: "আপনার প্রফেশনাল নেটওয়ার্কের জন্য আকর্ষক এবং ভাইরাল ক্যাপশন।", category: "Social Media" },
-    { icon: <Mail className={`h-5 w-5 ${isDarkMode ? "text-purple-400" : "text-purple-600"}`} />, title: "Cold Email Outreach", description: "ক্লাইন্ট বা লিড কনভার্ট করার জন্য পারসুয়াসিভ ইমেইল কপি।", category: "Email" },
-    { icon: <MessageSquare className={`h-5 w-5 ${isDarkMode ? "text-emerald-400" : "text-emerald-600"}`} />, title: "Facebook Ad Copy", description: "বেশি সেলস এনে দেওয়ার মতো হাই-কনভার্টিং ফেসবুক বিজ্ঞাপন কপি।", category: "Ad Copy" }
+    {
+      icon: <FileText className="h-4 w-4" />,
+      title: "SEO Blog Post",
+      description: "সার্চ ইঞ্জিনে র‍্যাঙ্ক করার মতো অপ্টিমাইজড লং-ফর্ম ব্লগ পোস্ট তৈরি করুন।",
+      category: "Blog",
+      accent: "var(--amber)",
+      accentSoft: "var(--amber-soft)",
+      stat: "2.4k",
+      statLabel: "words avg",
+      preview: ["The Complete Guide to...", "Introduction paragraph draft", "██████ ████ ████"],
+    },
+    {
+      icon: <Share2 className="h-4 w-4" />,
+      title: "LinkedIn Engagement",
+      description: "আপনার প্রফেশনাল নেটওয়ার্কের জন্য আকর্ষক এবং ভাইরাল ক্যাপশন।",
+      category: "Social Media",
+      accent: "var(--sage)",
+      accentSoft: "var(--sage-soft)",
+      stat: "94%",
+      statLabel: "engagement",
+      preview: ["🚀 Big announcement:", "██████ ████████ ██", "#growth #startup"],
+    },
+    {
+      icon: <Mail className="h-4 w-4" />,
+      title: "Cold Email Outreach",
+      description: "ক্লাইন্ট বা লিড কনভার্ট করার জন্য পারসুয়াসিভ ইমেইল কপি।",
+      category: "Email",
+      accent: "var(--redline)",
+      accentSoft: "var(--redline-soft)",
+      stat: "38%",
+      statLabel: "reply rate",
+      preview: ["Subject: Quick question", "Hi {{first_name}},", "████ ██████ ████"],
+    },
+    {
+      icon: <MessageSquare className="h-4 w-4" />,
+      title: "Facebook Ad Copy",
+      description: "বেশি সেলস এনে দেওয়ার মতো হাই-কনভার্টিং ফেসবুক বিজ্ঞাপন কপি।",
+      category: "Ad Copy",
+      accent: "var(--amber)",
+      accentSoft: "var(--amber-soft)",
+      stat: "3.1x",
+      statLabel: "avg ROAS",
+      preview: ["Limited time offer 🔥", "████████ ████ ███", "Shop now →"],
+    },
   ];
 
-  // 🎯 ৩. নেভিগেশনের জন্য হ্যান্ডলার ফাংশন
-  const handleUseTemplate = () => {
-    router.push("/dashboard"); 
-  };
+  const handleUseTemplate = () => router.push("/dashboard");
 
   return (
-    <section className={`py-20 px-4 border-t transition-colors duration-300 ${
-      isDarkMode 
-        ? "bg-slate-950 text-white border-white/5" 
-        : "bg-slate-50 text-slate-900 border-slate-200"
-    }`}>
-      <div className="mx-auto max-w-7xl">
-        
-        {/* হেডার সেকশন */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+    <section
+      className="py-20 px-4 border-t"
+     
+    >
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
           <div>
-            <h2 className={`text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${
-              isDarkMode ? "from-white to-slate-400" : "from-slate-900 to-slate-600"
-            }`}>
-              Popular Templates
-            </h2>
-            <p className={`mt-2 text-sm transition-colors ${isDarkMode ? "text-slate-400" : "text-slate-600"}`}>
-              আমাদের সবচেয়ে বেশি ব্যবহৃত এআই প্রম্পট টেমপ্লেটসমূহ।
+            <p className="font-mono text-xs mb-3 tracking-wide" style={{ color: "var(--ink-soft)" }}>
+              / template shelf
             </p>
+            <h2 className="font-display text-3xl sm:text-4xl leading-tight">
+              Pull a template off the shelf
+            </h2>
           </div>
-          <Link 
-            href="/explore" 
-            className={`inline-flex items-center gap-1 text-sm font-medium transition-colors group ${
-              isDarkMode ? "text-amber-400 hover:text-amber-300" : "text-amber-600 hover:text-amber-500"
-            }`}
+          <Link
+            href="/explore"
+            className="group inline-flex items-center gap-1 text-sm font-medium"
+            style={{ color: "var(--redline)" }}
           >
-            View All Templates 
+            View all
             <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* ৪-কলাম কার্ড গ্রিড */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {templates.map((template, index) => (
-            <div 
-              key={index} 
-              className={`flex flex-col h-full rounded-2xl border p-5 shadow-xl hover:scale-[1.02] transition-all duration-300 ${
-                isDarkMode 
-                  ? "border-white/10 bg-slate-900/40" 
-                  : "border-slate-200/60 bg-white"
-              }`}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {templates.map((template) => (
+            <div
+              key={template.title}
+              className="relative rounded-2xl border p-6 overflow-hidden group"
+              style={{ background: template.accentSoft, borderColor: "var(--line)" }}
             >
-              <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl border ${
-                isDarkMode ? "bg-slate-800 border-white/5" : "bg-slate-100 border-slate-200/60"
-              }`}>
-                {template.icon}
+              {/* header row */}
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full"
+                    style={{ background: "var(--paper-raised)", color: template.accent }}
+                  >
+                    {template.icon}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-wide" style={{ color: "var(--ink-soft)" }}>
+                    {template.category}
+                  </span>
+                </div>
+                <Sparkles className="h-4 w-4" style={{ color: template.accent }} />
               </div>
-              
-              <span className={`text-[10px] uppercase font-semibold tracking-wider mb-1 transition-colors ${
-                isDarkMode ? "text-amber-400" : "text-amber-600"
-              }`}>
-                {template.category}
-              </span>
-              
-              <h3 className="text-lg font-semibold mb-2">{template.title}</h3>
-              
-              <p className={`text-xs leading-relaxed flex-grow mb-5 transition-colors ${
-                isDarkMode ? "text-slate-400" : "text-slate-600"
-              }`}>
+
+              <h3 className="font-display text-xl mb-2" style={{ color: "var(--ink)" }}>
+                {template.title}
+              </h3>
+              <p className="text-xs leading-relaxed mb-5 max-w-[85%]" style={{ color: "var(--ink-soft)" }}>
                 {template.description}
               </p>
-              
-              {/* 🎯 ৪. বাটনে onClick ইভেন্ট যোগ করা হয়েছে */}
-              <button 
+
+              {/* mini preview mockup, floating stat badge — screenshot reference style */}
+              <div className="relative mt-2">
+                <div
+                  className="rounded-xl border p-4 shadow-sm transition-transform duration-300 group-hover:-translate-y-1"
+                  style={{ background: "var(--paper-raised)", borderColor: "var(--line)" }}
+                >
+                  {template.preview.map((line, i) => (
+                    <div
+                      key={i}
+                      className="h-2 rounded-full mb-2 last:mb-0 font-mono text-[9px] flex items-center px-2 overflow-hidden whitespace-nowrap"
+                      style={{
+                        background: i === 0 ? "transparent" : "var(--line)",
+                        color: "var(--ink-soft)",
+                        opacity: i === 0 ? 1 : 0.5,
+                        height: i === 0 ? "auto" : "6px",
+                      }}
+                    >
+                      {i === 0 ? line : ""}
+                    </div>
+                  ))}
+                </div>
+
+                <div
+                  className="absolute -bottom-3 -right-3 rounded-full border shadow-md px-3 py-1.5"
+                  style={{ background: "var(--ink)", borderColor: "var(--ink)" }}
+                >
+                  <p className="font-display text-sm leading-none text-white">{template.stat}</p>
+                  <p className="text-[8px] font-mono mt-0.5" style={{ color: template.accent }}>
+                    {template.statLabel}
+                  </p>
+                </div>
+              </div>
+
+              <button
                 onClick={handleUseTemplate}
-                className={`w-full rounded-xl border py-2.5 text-xs font-medium transition-all duration-200 ${
-                isDarkMode 
-                  ? "bg-slate-800 border-white/5 text-white hover:bg-amber-600 hover:border-amber-500" 
-                  : "bg-slate-100 border-slate-200 text-slate-700 hover:bg-amber-600 hover:border-amber-500 hover:text-white"
-              }`}>
-                Use Template
+                className="mt-8 inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-medium transition-transform group-hover:gap-2.5"
+                style={{ background: "var(--ink)", color: "var(--paper)" }}
+              >
+                Use template
+                <ArrowRight className="h-3 w-3" />
               </button>
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
