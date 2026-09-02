@@ -4,10 +4,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'lh3.googleusercontent.com', // গুগলের প্রোফাইল ইমেজের হোস্টনেম
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.postimg.cc', // PostImage এর ছবি ব্যবহার করলে এটাও রাখতে পারেন
       },
     ],
   },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
