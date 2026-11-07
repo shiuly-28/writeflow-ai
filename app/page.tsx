@@ -10,6 +10,9 @@ import Navbar from "./components/Navbar";
 import PopularTemplates from "./components/PopularTemplates";
 import Pricing from "./components/Pricing";
 import StatsAndReviews from "./components/StatsAndReviews";
+import HeaderFabriq from "./components/HeaderFabriq";
+
+
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -36,6 +39,7 @@ export default function Home() {
       <Pricing isDarkMode={isDarkMode}/>
       <StatsAndReviews isDarkMode={isDarkMode}/>
       <FAQ isDarkMode={isDarkMode}/>
+      <HeaderFabriq />
       <Footer isDarkMode={isDarkMode}/>
     </main>
   );
