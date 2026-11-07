@@ -2,19 +2,17 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-
-import { ArrowRight, Pin, FileText, Bot, Sparkles, PencilLine } from "lucide-react";
+import { ArrowRight, Bot, Sparkles } from "lucide-react";
 import Image from "next/image";
 
 interface HeroProps {
   isDarkMode: boolean;
 }
 
-// আপনার তৈরি করা ইউনিক ছবিগুলোর পাথ এখানে বসান
 const SLIDES = [
-  "https://images.unsplash.com/photo-1587440871875-191322ee64b0?q=80&w=1200&h=1600&auto=format&fit=crop", // placeholder: Image 1-এর জন্য
-  "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=1200&auto=format&fit=crop", // placeholder: Image 2-এর জন্য
-  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&h=1600&auto=format&fit=crop", // placeholder: Image 3-এর জন্য
+  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1920&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1587440871875-191322ee64b0?q=80&w=1920&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=1920&auto=format&fit=crop",
 ];
 
 export default function Hero({ isDarkMode }: HeroProps) {
@@ -23,131 +21,130 @@ export default function Hero({ isDarkMode }: HeroProps) {
   useEffect(() => {
     const id = setInterval(() => {
       setActive((prev) => (prev + 1) % SLIDES.length);
-    }, 4000);
+    }, 4500);
     return () => clearInterval(id);
   }, []);
 
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:py-28 bg-white dark:bg-slate-950 transition-colors duration-300">
-      
-      {/* ব্যানার ব্যাকগ্রাউন্ডের জন্য হালকা গ্লো ইফেক্ট */}
-      <div className={`absolute top-0 right-0 w-1/2 h-1/2 blur-[120px] opacity-15 pointer-events-none -z-10 rounded-full ${
-        isDarkMode ? "bg-amber-600" : "bg-amber-200"
-      }`} />
-
-      <div className="relative mx-auto max-w-6xl grid md:grid-cols-[1.1fr_1fr] gap-16 items-center">
-        {/* বাম কলাম — হেডলাইন */}
-        <div className="text-center md:text-left">
-          
-          {/* ছোট ব্যাজ */}
-          <div className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border mb-6 text-sm font-medium ${
-            isDarkMode 
-              ? "bg-slate-900 border-slate-800 text-amber-300" 
-              : "bg-slate-100 border-slate-200 text-amber-800 shadow-inner"
-          }`}>
-            <Bot className="h-5 w-5 text-amber-500" />
-            <span>AI Editor Agent: Active</span>
+    <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden px-4 py-24">
+      {/* ব্যাকগ্রাউন্ড স্লাইডার */}
+      <div className="absolute inset-0 w-full h-full">
+        {SLIDES.map((src, i) => (
+          <div
+            key={src}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+              active === i ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+            }`}
+          >
+            <Image
+              src={src}
+              alt={`Background slide ${i + 1}`}
+              fill
+              priority={i === 0}
+              unoptimized
+              className="object-cover object-center"
+              sizes="100vw"
+            />
           </div>
+        ))}
 
-          <h1 className={`font-display text-4xl sm:text-5xl lg:text-[3.6rem] leading-[1.06] tracking-tight ${
+        {/* অতি হালকা ওভারলে (অপাসিটি কমিয়ে ডার্ক মোডে ৪০% এবং লাইট মোডে ৩০% করা হয়েছে) */}
+        <div
+          className={`absolute inset-0 transition-colors duration-300 ${
+            isDarkMode ? "bg-slate-950/40" : "bg-white/30"
+          }`}
+        />
+      </div>
+
+      {/* মেইন কনটেন্ট */}
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
+        {/* ছোট ব্যাজ */}
+        <div
+          className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border mb-6 text-sm font-medium backdrop-blur-md shadow-sm ${
+            isDarkMode
+              ? "bg-slate-900/80 border-slate-700 text-amber-300"
+              : "bg-white/85 border-slate-200 text-amber-800"
+          }`}
+        >
+          <Bot className="h-5 w-5 text-amber-500" />
+          <span>AI Editor Agent: Active</span>
+        </div>
+
+        {/* হেডলাইন (ব্যাকগ্রাউন্ড স্পষ্ট থাকায় টেক্সট শ্যাডো যোগ করা হয়েছে যাতে পড়তে সুবিধা হয়) */}
+        <h1
+          className={`font-display text-4xl sm:text-6xl lg:text-[4rem] leading-[1.1] tracking-tight font-extrabold drop-shadow-sm ${
             isDarkMode ? "text-white" : "text-slate-950"
-          }`}>
-            Your draft, <span className="text-amber-500">edited</span> by an agent that <span className="relative inline-block">never sleeps<span className="absolute -bottom-1 inset-x-0 h-1 bg-amber-400 rounded-full" /></span>.
-          </h1>
-          <p className={`mt-7 max-w-lg text-base sm:text-lg leading-relaxed mx-auto md:mx-0 ${
-            isDarkMode ? "text-slate-400" : "text-slate-700"
-          }`}>
-            WriteFlow AI-এর ব্যাকগ্রাউন্ড এজেন্ট আপনার ব্লগ, সোশ্যাল ক্যাপশন আর ইমেইল কপি প্ল্যান করে, খসড়া লেখে এবং সম্পাদনা করে — আপনি শুধু অনুমোদন করবেন।
-          </p>
+          }`}
+        >
+          Your draft, <span className="text-amber-500">edited</span> by an agent that{" "}
+          <span className="relative inline-block">
+            never sleeps
+            <span className="absolute -bottom-1 inset-x-0 h-1.5 bg-amber-400 rounded-full" />
+          </span>
+          .
+        </h1>
 
-          <div className="mt-10 flex flex-col sm:flex-row gap-5 justify-center md:justify-start">
-            <Link
-              href="/dashboard/documents/new"
-              className="group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-base font-semibold text-white justify-center transition-all shadow-lg hover:shadow-amber-500/20 hover:scale-[1.02] bg-amber-500 hover:bg-amber-600"
-            >
-              Start writing free
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              href="/explore"
-              className={`inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-semibold border transition-all hover:bg-slate-100 ${
-                isDarkMode 
-                  ? "border-slate-800 bg-slate-900 text-white hover:bg-slate-800" 
-                  : "border-slate-200 bg-white text-slate-800 shadow-sm"
-              }`}
-            >
-              Browse templates
-            </Link>
-          </div>
+        {/* সাবটেক্সট */}
+        <p
+          className={`mt-7 max-w-2xl text-base sm:text-xl leading-relaxed mx-auto font-medium drop-shadow-sm ${
+            isDarkMode ? "text-slate-100" : "text-slate-900"
+          }`}
+        >
+          WriteFlow AI-এর ব্যাকগ্রাউন্ড এজেন্ট আপনার ব্লগ, সোশ্যাল ক্যাপশন আর ইমেইল কপি প্ল্যান করে, খসড়া লেখে এবং সম্পাদনা করে — আপনি শুধু অনুমোদন করবেন।
+        </p>
 
-          <div className={`mt-12 flex items-center gap-7 justify-center md:justify-start text-sm ${isDarkMode ? "text-slate-500" : "text-slate-600"}`}>
-            <span className="flex items-center gap-2.5 font-medium">
-              <Sparkles className="h-4 w-4 text-amber-500" />
-              No credit card required
-            </span>
-            <span className="flex items-center gap-2.5 font-medium">
-              <Sparkles className="h-4 w-4 text-amber-500" />
-              5,000 free words / month
-            </span>
-          </div>
+        {/* বাটনসমূহ */}
+        <div className="mt-10 flex flex-col sm:flex-row gap-5 justify-center">
+          <Link
+            href="/dashboard/documents/new"
+            className="group inline-flex items-center gap-2.5 rounded-full px-8 py-4 text-base font-semibold text-white justify-center transition-all shadow-lg hover:shadow-amber-500/30 hover:scale-[1.02] bg-amber-500 hover:bg-amber-600"
+          >
+            Start writing free
+            <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <Link
+            href="/explore"
+            className={`inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-semibold border backdrop-blur-md transition-all ${
+              isDarkMode
+                ? "border-slate-600 bg-slate-900/80 text-white hover:bg-slate-800"
+                : "border-slate-300 bg-white/85 text-slate-900 hover:bg-white shadow"
+            }`}
+          >
+            Browse templates
+          </Link>
         </div>
 
-        {/* ডান কলাম — sliding photo + unique collaboration card */}
-        <div className="relative pt-10 sm:pt-0">
-          
-          {/* ছবির slider কন্টেইনার (মকআপ স্টাইল) */}
-          <div className={`relative rounded-3xl overflow-hidden shadow-2xl border ${
-            isDarkMode 
-              ? "border-slate-800 shadow-black/40" 
-              : "border-slate-200/80 bg-slate-50"
-          }`}>
-            <div className="relative w-full h-[460px] sm:h-[540px]">
-              {SLIDES.map((src, i) => (
-                <Image
-                  key={src}
-                  src={src}
-                  alt="WriteFlow AI unique workspace view"
-                  fill
-                  priority={i === 0}
-                  className="object-cover transition-opacity duration-1000 ease-in-out"
-                  style={{ opacity: active === i ? 1 : 0 }}
-                />
-              ))}
-              
-              {/* ইমেজের উপর হালকা ডার্ক লেয়ার (যদি প্রয়োজন হয়) */}
-              <div className={`absolute inset-0 ${isDarkMode ? "bg-slate-950/20" : "bg-white/5"}`} />
-            </div>
-
-            {/* slider dots */}
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2.5">
-              {SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
-                  aria-label={`Slide ${i + 1}`}
-                  className="h-2.5 rounded-full transition-all duration-300 border border-white/40"
-                  style={{
-                    width: active === i ? "24px" : "10px",
-                    background: active === i ? "#f59e0b" : "rgba(255,255,255,0.7)", // var(--amber) এবং var(--sage)-এর জায়গায় সরাসরি কালার
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-
-   
-          {/* floating stat badge */}
-          <div className={`absolute -top-7 -right-5 sm:-right-10 rounded-3xl border shadow-xl p-4 hidden sm:block ${
-            isDarkMode 
-              ? "bg-slate-900 border-slate-800 text-white" 
-              : "bg-white border-slate-100 text-slate-950"
-          }`}>
-            <p className="font-display text-2xl font-extrabold leading-none">2,481</p>
-            <p className={`text-xs mt-1.5 font-medium ${isDarkMode ? "text-amber-400" : "text-amber-600"}`}>
-              words today
-            </p>
-          </div>
+        {/* ফিচার ট্যাগ */}
+        <div
+          className={`mt-12 flex flex-wrap items-center gap-6 justify-center text-sm font-medium ${
+            isDarkMode ? "text-slate-200" : "text-slate-900"
+          }`}
+        >
+          <span className="flex items-center gap-2 drop-shadow-sm">
+            <Sparkles className="h-4 w-4 text-amber-500" />
+            No credit card required
+          </span>
+          <span className="flex items-center gap-2 drop-shadow-sm">
+            <Sparkles className="h-4 w-4 text-amber-500" />
+            5,000 free words / month
+          </span>
         </div>
+      </div>
+
+      {/* নেভিগেশন ডটস */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2.5 z-20">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActive(i)}
+            aria-label={`Slide ${i + 1}`}
+            className="h-2 rounded-full transition-all duration-300 border border-white/60 shadow"
+            style={{
+              width: active === i ? "28px" : "10px",
+              background: active === i ? "#f59e0b" : "rgba(255,255,255,0.7)",
+            }}
+          />
+        ))}
       </div>
     </section>
   );
